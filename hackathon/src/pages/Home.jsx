@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import background1 from '../assets/Home/background1.png'
-import background2 from '../assets/Home/background2.png'
-import image1 from '../assets/Home/image1.png'
-import image2 from '../assets/Home/image2.png'
+import background1 from '../assets/images/Home/background1.png'
+import background2 from '../assets/images/Home/background2.png'
+import image1 from '../assets/images/Home/image1.png'
+import image2 from '../assets/images/Home/image2.png'
 import { Navbar } from "../components/Navbar/Navbar";
 
 const BackgroundImgContainer1 = styled.div`
@@ -21,7 +21,7 @@ const TitleTextContainer = styled.div`
     margin-top: 120px;
 `
 const TitleText = styled.div`
-    text-align: ${(props) => (props.align === 'left' ? 'left' : 'right')};
+    text-align: ${({ $align }) => ($align === 'left' ? 'left' : 'right')};
     font-size: 64px;
     font-weight: 800;
     line-height: 110%;
@@ -48,7 +48,7 @@ const IntroContainer = styled.div`
     margin: 125px 0px;
 `
 const MainText = styled.div`
-    text-align: ${(props) => (props.align === 'left' ? 'left' : 'right')};
+    text-align: ${({ $align }) => ($align === 'left' ? 'left' : 'right')};
     font-size: 56px;
     font-style: normal;
     font-weight: 700;
@@ -94,7 +94,7 @@ const FeatureInfoContainer = styled.div`
     gap: 51px;
 `
 const FeatureInfoText = styled.div`
-    text-align: ${(props) => (props.align === 'left' ? 'left' : 'right')};
+    text-align: ${({ $align }) => ($align === 'left' ? 'left' : 'right')};
     color: #494B56;
     font-size: 24px;
     font-weight: 600;
@@ -211,7 +211,7 @@ const Home = () => {
         <BackgroundImgContainer1>
             <Navbar/>
             <TitleTextContainer>
-                <TitleText align='right'>반려동물과 행복한 안녕 <br/> 반려인의 안녕</TitleText>
+                <TitleText $align='right'>반려동물과 행복한 안녕 <br/> 반려인의 안녕</TitleText>
                 <SubText>다시 만날 수 있는 그날을 위해 행복하게 <br/> 작별 인사할 수 있도록 도와드릴게요</SubText>
             </TitleTextContainer>
         </BackgroundImgContainer1>
@@ -229,8 +229,8 @@ const Home = () => {
         <BackgroundContainer>
             <ImgContainer>
                 <FeatureInfoContainer>
-                    <MainText align='left'>매일을 기록하며 <br/> 추억하세요</MainText>
-                    <FeatureInfoText align='left'>
+                    <MainText $align='left'>매일을 기록하며 <br/> 추억하세요</MainText>
+                    <FeatureInfoText $align='left'>
                         매일 질문을 통해 행복했던 순간을 돌아봐요.<br/>
                         함께한 순간을 담은 사진과<br/>
                         그때의 감정을 기록하면서 마음껏 추억하세요.<br/>
@@ -243,8 +243,8 @@ const Home = () => {
             <ImgContainer>
                 <Img src={image2} alt="img2"/>
                 <FeatureInfoContainer>
-                    <MainText align='right'>웰다잉을 위한 장소를 <br/> 찾아보세요</MainText>
-                    <FeatureInfoText align='right'>
+                    <MainText $align='right'>웰다잉을 위한 장소를 <br/> 찾아보세요</MainText>
+                    <FeatureInfoText $align='right'>
                         전국 웰다잉 플레이스를 한번에 확인해요.<br/>
                         70여개의 반려동물 장례식장과<br/>
                         **개의 반려동물 호스피스 병원 정보를 통해<br/>
@@ -256,7 +256,7 @@ const Home = () => {
         </BackgroundContainer>
         <BackgroundColorContainer>
             <ExpertContainer>
-                <TitleText align='left'>힘껏 사랑하고 마음껏 행복하도록 <br/> <MintText>000</MintText>이 함께 도와드릴게요</TitleText>
+                <TitleText $align='left'>힘껏 사랑하고 마음껏 행복하도록 <br/> <MintText>000</MintText>이 함께 도와드릴게요</TitleText>
                 <QuoteContainers>
                     <Quote>
                         <DoctorText>정신과 전문의 이명수 원장</DoctorText>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import background from '../assets/Memory/background.png'
+import background from '../assets/images/Memory/background.png'
 import { Navbar } from "../components/Navbar/Navbar";
 
 const BackgroundContainer = styled.div`

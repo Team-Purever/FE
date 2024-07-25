@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import search from '../../assets/Navbar/search.svg'
+import search from '../../assets/images/Navbar/search.svg';
 import { useNavigate } from 'react-router-dom';
 
 const NavbarContainer = styled.div`
@@ -47,7 +47,7 @@ export const Navbar = () => {
     return(
         <NavbarContainer>
             <BrandText onClick={() => {navigate('/');}}>사이트 이름</BrandText>
-            <MenuText>추억하기</MenuText>
+            <MenuText onClick={() => {navigate('/memory');}}>추억하기</MenuText>
             <MenuText>장소 찾기</MenuText>
             <MenuText>정보 찾기</MenuText>
             <BtnContainer>
