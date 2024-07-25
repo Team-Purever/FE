@@ -6,4 +6,5 @@
 
 body {
   font-family: 'SUIT Variable', sans-serif;
+  overflow-x: hidden; /* y축 스크롤이 생기면서 100vw가 다 보이지 못하는 문제 해결 */
 }
