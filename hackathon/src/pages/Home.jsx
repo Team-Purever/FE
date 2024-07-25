@@ -65,11 +65,10 @@ const ServiceInfoText = styled.div`
     color: #212121
 `
 const MintBtn = styled.div`
-    display: inline-flex;
+    display: flex;
     padding: 28px 40px;
     justify-content: center;
     align-items: center;
-    gap: 10px;
     border-radius: 100px;
     background-color: #69D1DE;
     cursor: pointer; 
