@@ -225,7 +225,7 @@ const Home = () => {
                     웰빙(Well-being)만큼 중요한<br/>
                     반려동물의 웰다잉(well-dying) 준비를 돕습니다.
                 </ServiceInfoText>
-                <MintBtn>지금 바로 시작하기</MintBtn>
+                <MintBtn>지금 바로 시작하기</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
             </IntroContainer>
         </BackgroundColorContainer>
 
@@ -271,7 +271,7 @@ const Home = () => {
                             추억을 떠올리며 충분한 <br/>
                             애도를 하는 것이 중요합니다.” <br/>
                         </QuoteText>
-                        <DetailText href="https://www.example.com" target="_blank">자세히 알아보기</DetailText>
+                        <DetailText href="https://www.mk.co.kr/news/it/10559989" target="_blank">자세히 알아보기</DetailText>
                     </Quote>
                     <Quote>
                         <DoctorText>설채현 수의사</DoctorText>
@@ -280,7 +280,7 @@ const Home = () => {
                             반려동물이 세상을 떠난 후 <br/>
                             마음껏 슬퍼하세요.” <br/>
                         </QuoteText>
-                        <DetailText href="https://www.example.com" target="_blank">자세히 알아보기</DetailText>
+                        <DetailText href="https://www.hankyung.com/article/2024022718057" target="_blank">자세히 알아보기</DetailText>
                     </Quote>
                     <Quote>
                         <DoctorText>한국웰다잉문화운동 원혜영 대표</DoctorText>
@@ -289,17 +289,17 @@ const Home = () => {
                             위해서는 보호소 입양 때부터 장례에 <br/>
                             대한 교육을 더해...” <br/>
                         </QuoteText>
-                        <DetailText href="https://www.example.com" target="_blank">자세히 알아보기</DetailText>
+                        <DetailText href="https://www.hani.co.kr/arti/animalpeople/companion_animal/1027755.html" target="_blank">자세히 알아보기</DetailText>
                     </Quote>
                 </QuoteContainers>
-                <MintBtn>지금 바로 시작하기</MintBtn>
+                <MintBtn>지금 바로 시작하기</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
             </ExpertContainer>
         </BackgroundColorContainer>
 
 
         <BackgroundImgContainer2/>
 
-        
+
         <BackgroundColorContainer>
             <FooterContainer>
                 <NameText>NAME</NameText>
