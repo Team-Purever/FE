@@ -215,6 +215,8 @@ const Home = () => {
                 <SubText>다시 만날 수 있는 그날을 위해 행복하게 <br/> 작별 인사할 수 있도록 도와드릴게요</SubText>
             </TitleTextContainer>
         </BackgroundImgContainer1>
+
+
         <BackgroundColorContainer>
             <IntroContainer>
                 <MainText>000이 행복한 안녕을 도울게요.</MainText>
@@ -226,6 +228,8 @@ const Home = () => {
                 <MintBtn>지금 바로 시작하기</MintBtn>
             </IntroContainer>
         </BackgroundColorContainer>
+
+
         <BackgroundContainer>
             <ImgContainer>
                 <FeatureInfoContainer>
@@ -254,6 +258,8 @@ const Home = () => {
                 </FeatureInfoContainer>
             </ImgContainer>
         </BackgroundContainer>
+
+
         <BackgroundColorContainer>
             <ExpertContainer>
                 <TitleText $align='left'>힘껏 사랑하고 마음껏 행복하도록 <br/> <MintText>000</MintText>이 함께 도와드릴게요</TitleText>
@@ -289,7 +295,11 @@ const Home = () => {
                 <MintBtn>지금 바로 시작하기</MintBtn>
             </ExpertContainer>
         </BackgroundColorContainer>
+
+
         <BackgroundImgContainer2/>
+
+        
         <BackgroundColorContainer>
             <FooterContainer>
                 <NameText>NAME</NameText>

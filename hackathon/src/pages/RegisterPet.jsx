@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from "../components/Navbar/Navbar";
-import plus from "../assets/images/RegisterPet/plus.svg"
+import plus from "../assets/images/RegisterPet, ChoosePet/plus.svg";
 
 const MainContainer = styled.div`
     display: flex;
@@ -26,9 +27,10 @@ const UploadButton = styled.label`
     align-items: center;
     width: 22vh;
     height: 22vh;
+    min-width: 200px;
+    min-height: 200px;
     border-radius: 116.5px;
     background-color: #69D1DE;
-    //margin: 45px 0px 49px 0px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -115,6 +117,7 @@ const WhiteBtn = styled.div`
     cursor: pointer;
 `
 const RegisterPet = () => {
+    const navigate = useNavigate();
     const [image, setImage] = useState(null);
 
     const handleImageUpload = (event) => {
@@ -151,7 +154,7 @@ const RegisterPet = () => {
                 </SubContainer>
                 <BtnContainer>
                     <MintBtn>기록하기</MintBtn>
-                    <WhiteBtn>취소하기</WhiteBtn>
+                    <WhiteBtn onClick={() => {navigate('/diary');}}>취소하기</WhiteBtn>
                 </BtnContainer>
             </MainContainer>
         </>

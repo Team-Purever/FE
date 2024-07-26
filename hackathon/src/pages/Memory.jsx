@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import background from '../assets/images/Memory/background.png'
 import { Navbar } from "../components/Navbar/Navbar";
 
@@ -44,6 +45,7 @@ const MintBtn = styled.div`
     font-weight: 600;
 `
 const Memory = () => {
+    const navigate = useNavigate();
     return(
         <BackgroundContainer>
             <Navbar/>
@@ -53,7 +55,7 @@ const Memory = () => {
                     하루하루 다르게 주어지는 질문들에 답하며 <br/>
                     사랑하는 반려동물과의 추억들을 되돌아 보세요.
                 </SubText>
-                <MintBtn>추억 일기장</MintBtn>
+                <MintBtn onClick={() => {navigate('/diary');}}>추억 일기장</MintBtn>
             </Container>
         </BackgroundContainer>
     );   

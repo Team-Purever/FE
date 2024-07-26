@@ -49,7 +49,6 @@ export const Navbar = () => {
             <BrandText onClick={() => {navigate('/');}}>사이트 이름</BrandText>
             <MenuText onClick={() => {navigate('/memory');}}>추억하기</MenuText>
             <MenuText>장소 찾기</MenuText>
-            <MenuText>정보 찾기</MenuText>
             <BtnContainer>
                 <SearchBtn src={search} alt='search' />
                 <MyProfileBtn/>
