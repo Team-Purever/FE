@@ -137,8 +137,8 @@ const RegisterPet = () => {
             <MainContainer>
                 <MainText>추억을 함께 기록할 친구가 궁금해요</MainText>
                 <UploadButton>
-                    <PlusIcon src={plus} $show={!image}/>
-                    {image && <ImagePreview src={image} alt="Uploaded Image" />}
+                    <PlusIcon src={plus} $show={!image}/>       {/*이미지가 등록되었으면 + 아이콘 안보이게*/}
+                    {image && <ImagePreview src={image} alt="Uploaded Image" />}        {/*이미지가 등록되었으면 미리보기로 보여줌*/}
                     <ImageInput type="file" accept="image/*" onChange={handleImageUpload} />
                 </UploadButton>
                 <SubContainer>

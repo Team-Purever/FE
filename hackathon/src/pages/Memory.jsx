@@ -55,7 +55,7 @@ const Memory = () => {
                     하루하루 다르게 주어지는 질문들에 답하며 <br/>
                     사랑하는 반려동물과의 추억들을 되돌아 보세요.
                 </SubText>
-                <MintBtn onClick={() => {navigate('/diary');}}>추억 일기장</MintBtn>
+                <MintBtn onClick={() => {navigate('/diary');}}>추억 일기장</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
             </Container>
         </BackgroundContainer>
     );   

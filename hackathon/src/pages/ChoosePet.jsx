@@ -87,7 +87,7 @@ const ChoosePet = () => {
                 <SubText>돌아볼 친구의 프로필을 선택해주세요</SubText>
                 <PetContainer>
                     {pets.map(pet => (
-                        <PetCard key={pet.petId} name={pet.name} url={pet.url} onClick={() => {navigate(`/diary/pet${pet.petId}`)}}/>
+                        <PetCard key={pet.petId} name={pet.name} url={pet.url} onClick={() => {navigate(`/diary/${pet.petId}`)}}/>
                     ))}
                     <AddContainer>
                         <AddBtn onClick={() => {navigate('/register-pet');}}>

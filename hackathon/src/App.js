@@ -12,7 +12,7 @@ function App() {
       <Route path='/memory' element={<Memory/>}/>
       <Route path='/register-pet' element={<RegisterPet/>}/>
       <Route path='/diary' element={<ChoosePet/>}/>
-      <Route path="/diary/pet:petId" element={<DiaryList />} />
+      <Route path="/diary/:petId" element={<DiaryList />} />
     </Routes>
   );
 }
