@@ -1,4 +1,6 @@
 import styled from "styled-components"
+import { useState } from "react"
+import { OtherPetModal } from "./OtherPetModal"
 
 const ProfileContainer = styled.div`
     display: flex;
@@ -47,9 +49,19 @@ const DateText = styled.div`
 `
 
 export const PetProfile = ({url, age, name, day}) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return(
         <ProfileContainer>
-            <PetImage src={url}/>
+            <PetImage src={url} onClick={openModal}/>
             <PetInfoContainer>
                 <NameAgeContainer>
                     <NameText>{name}</NameText>
@@ -58,6 +70,7 @@ export const PetProfile = ({url, age, name, day}) => {
                 </NameAgeContainer>
                 <DateText>추억 기록한지 {day}일째</DateText>
             </PetInfoContainer>
+            {isModalOpen && <OtherPetModal onClose={closeModal} />}
         </ProfileContainer>
     )
 }
