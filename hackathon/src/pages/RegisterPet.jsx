@@ -120,15 +120,32 @@ const RegisterPet = () => {
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
 
+
+    //임시 데이터
+    const response = {
+        data:{
+            url: "https://s3-alpha-sig.figma.com/img/8fcd/65d9/a4c3245bfdf0b26a01fb25d0f63a2469?Expires=1722816000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=J~XsnWk2x4fS6bogINT7r3jToFNSB32VG-pwBwlai-nGD5~lI~-HazNCKQdB7OcYU1~TLaYyyAI8lxfPcanilFNVrJHb4hsOKh2~8CmwZDTuK-xYB412F5Wuooz5nPM6Q1uaDi726QhttSG5Z0HHSB04g1bbcvfOgeEM6XKi3hqhfz7KCl9eoA9b7hw06wQReYl67kRYwP6a87BvELZ3QtkzzDn89D4Sf~rMBTgvi-3Z~ZBZh99n1bUMMIVN5TnXu7QCR0DwB~AF1pt-lpQl2dPIb6YWH~OmAnCXULSmLgroiU387YT5izqv-ePbX031DuCGStyZUAHvbZn6WSte~A__"
+        }
+    }
+
+    
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
-        if (file) { // 파일이 선택되었는지 확인
-            const reader = new FileReader(); // FileReader 객체 생성
-            reader.readAsDataURL(file); // 파일 읽기 시작
-            reader.onloadend = () => { // 파일 읽기가 완료되었을 때 발생하는 이벤트
-                setImage(reader.result); // 읽은 파일의 내용을 image에 저장(URL)
-            };
+        if (!file) {
+            return;
         }
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            //axios 코드
+
+            setImage(response.data.url);
+        } catch (e) {
+
+        }
+
     };
 
     return (
