@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import search from '../../assets/images/Navbar/search.svg';
 import { useNavigate } from 'react-router-dom';
 
 const NavbarContainer = styled.div`
@@ -21,25 +20,13 @@ const MenuText = styled.div`
     font-weight: 500;
     cursor: pointer;
 `
-const SearchBtn = styled.img`
-    width: 26px;
-    height: 26px;
-    cursor: pointer;
-`
 const MyProfileBtn = styled.div`
     width: 36px;
     height: 36px;
+    margin-left: auto;
     background-color: black;
     border-radius: 50px;
     cursor: pointer;
-`
-const BtnContainer = styled.div`
-    display: flex;
-    width: 107px;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-    margin-left: auto;
 `
 
 export const Navbar = () => {
@@ -49,10 +36,7 @@ export const Navbar = () => {
             <BrandText onClick={() => {navigate('/');}}>사이트 이름</BrandText>
             <MenuText onClick={() => {navigate('/memory');}}>추억하기</MenuText>
             <MenuText>장소 찾기</MenuText>
-            <BtnContainer>
-                <SearchBtn src={search} alt='search' />
-                <MyProfileBtn/>
-            </BtnContainer>
+            <MyProfileBtn/>
         </NavbarContainer>
     );
 }
