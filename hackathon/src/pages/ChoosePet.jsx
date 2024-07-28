@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from "../components/Navbar/Navbar";
 import { PetCard } from "../components/ChoosePet/PetCard";
-import plus from "../assets/images/RegisterPet, ChoosePet/plus.svg";
+import plus from "../assets/images/RegisterPet, ChoosePet, WriteDiary/plus.svg";
 
 const MainContainer = styled.div`
     display: flex;

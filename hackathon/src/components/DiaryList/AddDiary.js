@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import questions from "../../assets/Data/questions.json"
+import { useNavigate, useParams } from "react-router-dom";
 
 const MainContainer = styled.div`
     display: flex;
@@ -55,16 +55,21 @@ const AddBtn = styled.div`
 `
 
 export const AddDiary = ({newDiaryId, date}) => {
-    const newQuestions = (newDiaryId <= 15) ? questions[newDiaryId-1] : "오늘의 추억을 기록해주세요."; 
+    const navigate = useNavigate();
+    const { petId } = useParams();
+
+    const handleClick = () => {
+        navigate(`/diary/${petId}/write`, { state: { newDiaryId } });
+    };
 
     return(
         <MainContainer>
             <TitleContainer>
                 <DiaryId>{newDiaryId}</DiaryId>
-                <TitleText>{newQuestions}</TitleText>
+                <TitleText>오늘의 추억</TitleText>
                 <DateText>{date}</DateText>
             </TitleContainer>
-            <AddBtn>오늘은 어떤 추억을 기록하게 될까요?</AddBtn>
+            <AddBtn onClick={handleClick}>오늘은 어떤 추억을 기록하게 될까요?</AddBtn>
 
         </MainContainer>
     );
