@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Memory from './pages/Memory';
 import RegisterPet from './pages/RegisterPet';
@@ -12,6 +13,8 @@ import Signup from './pages/Signup';
 
 function App() {
   return (
+<>
+<ScrollToTop />
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/memory' element={<Memory/>}/>
@@ -22,6 +25,7 @@ function App() {
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
     </Routes>
+    </>
   );
 }
 
