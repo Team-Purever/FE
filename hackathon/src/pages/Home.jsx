@@ -4,6 +4,7 @@ import background2 from '../assets/images/Home/background2.png'
 import image1 from '../assets/images/Home/image1.png'
 import image2 from '../assets/images/Home/image2.png'
 import { Navbar } from "../components/Navbar/Navbar";
+import { useNavigate } from 'react-router-dom';
 
 const BackgroundImgContainer1 = styled.div`
     background-image: url(${background1});
@@ -206,6 +207,12 @@ const GreyLine = styled.hr`
     margin: 18.5px 0px 18.5px 0px;
 `
 const Home = () => {
+  const navigate = useNavigate(); // 페이지 이동을 위해 useNavigate 훅 추가
+
+    const handleStartClick = () => { // 로그인 페이지로 이동하는 함수 추가
+        navigate('/login');
+    };
+
     return(
         <>
         <BackgroundImgContainer1>
@@ -292,7 +299,7 @@ const Home = () => {
                         <DetailText href="https://www.hani.co.kr/arti/animalpeople/companion_animal/1027755.html" target="_blank">자세히 알아보기</DetailText>
                     </Quote>
                 </QuoteContainers>
-                <MintBtn>지금 바로 시작하기</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
+                <MintBtn onClick={handleStartClick}>지금 바로 시작하기</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
             </ExpertContainer>
         </BackgroundColorContainer>
 

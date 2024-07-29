@@ -5,6 +5,10 @@ import RegisterPet from './pages/RegisterPet';
 import ChoosePet from './pages/ChoosePet';
 import DiaryList from './pages/DiaryList';
 import WriteDiary from './pages/WriteDiary';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+
+
 
 function App() {
   return (
@@ -15,6 +19,8 @@ function App() {
       <Route path='/diary' element={<ChoosePet/>}/>
       <Route path='/diary/:petId' element={<DiaryList />} />
       <Route path='/diary/:petId/write' element={<WriteDiary/>}/>
+      <Route path='/login' element={<Login />} />
+      <Route path='/signup' element={<Signup />} />
     </Routes>
   );
 }
