@@ -1,14 +1,14 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: "YOUR_BASE_URL_HERE",
+    baseURL: "http://localhost:8000",
     headers: {
       'Content-Type': 'application/json',
     }
 });
 
 // 토큰 재발급 함수
-const reissueToken = async () => {
+/*const reissueToken = async () => {
     const refreshToken = localStorage.getItem('refresh_token');
     if (!refreshToken) {
       console.error('리프레시 토큰이 없습니다');
@@ -64,4 +64,4 @@ axiosInstance.interceptors.response.use(
   
       return Promise.reject(error); // 에러 반환
     }
-  );
+  );*/

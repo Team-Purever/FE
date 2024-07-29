@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import backgroundcat from '../assets/images/Login/backgroundcat.png';
-import kakaoLogo from '../assets/images/Login/kakao.svg';
-import naverLogo from '../assets/images/Login/naver.svg';
-import googleLogo from '../assets/images/Login/google.svg';
-import { Navbar } from "../components/Navbar/Navbar";
+import backgroundcat from '../../assets/images/Login/backgroundcat.png';
+import kakaoLogo from '../../assets/images/Login/kakao.svg';
+import naverLogo from '../../assets/images/Login/naver.svg';
+import googleLogo from '../../assets/images/Login/google.svg';
+import { Navbar } from '../../components/Navbar/Navbar';
 
 const BackgroundContainer = styled.div`
     background-image: url(${backgroundcat});
@@ -129,9 +129,9 @@ const Login = () => {
 
    
     const handleKakaoLogin = () => {
-      const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
-      const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-      const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=17fa94fa1223a655a400b82204f61faf&redirect_uri=http://localhost:3000/auth/kakao&response_type=code`
+      const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+      const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+      const kakaoAuthURL = 'https://kauth.kakao.com/oauth/authorize?client_id=' + REST_API_KEY + '&redirect_uri=' + REDIRECT_URI + '&response_type=code';
       window.location.href = kakaoAuthURL;
   };
 
