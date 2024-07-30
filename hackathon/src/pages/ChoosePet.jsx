@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from "../components/Navbar/Navbar";
 import { PetCard } from "../components/ChoosePet/PetCard";
+import { axiosInstance } from "../api";
 import plus from "../assets/images/RegisterPet, ChoosePet, WriteDiary/plus.svg";
+import { useEffect, useState } from "react";
 
 const MainContainer = styled.div`
     display: flex;
@@ -62,20 +64,28 @@ const AddText = styled.div`
 `
 
 const ChoosePet = () => {
-    //임시 데이터
-    const pets = [
-        {
-          "petId": 1,
-          "name": "밥무",
-          "url": "img/filename2.jpg"
-        },
-        {
-          "petId": 2,
-          "name": "꼬순",
-          "url": "img/filename1.jpg"
-        },
-      ]
+    const [pets, setPets] = useState([]);
+    
+    const fetchData = async() => {
+        try {
+            const accessToken = localStorage.getItem('access_token');
 
+            const response = await axiosInstance.get('/pets',{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+
+            setPets(response.data.data.Pets)
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(()=> {
+        fetchData();
+    }, []);
 
       
     const navigate = useNavigate();

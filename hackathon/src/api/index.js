@@ -7,8 +7,9 @@ export const axiosInstance = axios.create({
     }
 });
 
+
 // 토큰 재발급 함수
-/*const reissueToken = async () => {
+const reissueToken = async () => {
     const refreshToken = localStorage.getItem('refresh_token');
     if (!refreshToken) {
       console.error('리프레시 토큰이 없습니다');
@@ -22,7 +23,7 @@ export const axiosInstance = axios.create({
         }
       });
       console.log('토큰 재발급 완료');
-      const newAccessToken = response.data.accessToken;
+      const newAccessToken = response.data.data.accessToken;
       localStorage.setItem('access_token', newAccessToken);
       return newAccessToken;
 
@@ -31,20 +32,6 @@ export const axiosInstance = axios.create({
       return null;
     }
 };
-
-// Axios 요청 인터셉터 설정 (accessToken 자동 설정)
-axiosInstance.interceptors.request.use(
-    (config) => {
-        const accessToken = localStorage.getItem('access_token');
-        if (accessToken) {
-            config.headers['Authorization'] = `Bearer ${accessToken}`;
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
 
 // Axios 응답 인터셉터 설정
 axiosInstance.interceptors.response.use(
@@ -64,4 +51,4 @@ axiosInstance.interceptors.response.use(
   
       return Promise.reject(error); // 에러 반환
     }
-  );*/
+  );

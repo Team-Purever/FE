@@ -3,8 +3,10 @@ import background1 from '../assets/images/Home/background1.png'
 import background2 from '../assets/images/Home/background2.png'
 import image1 from '../assets/images/Home/image1.png'
 import image2 from '../assets/images/Home/image2.png'
+import Logo from '../assets/images/Navbar/PUREVER.svg'
 import { Navbar } from "../components/Navbar/Navbar";
 import { useNavigate } from 'react-router-dom';
+import { isLoggedIn } from "../api/isLoggedIn";
 
 const BackgroundImgContainer1 = styled.div`
     background-image: url(${background1});
@@ -166,34 +168,22 @@ const BackgroundImgContainer2 = styled.div`
     background-size: cover;
     background-position: center;
 `
-const NameText = styled.div`
-    font-size: 56px;
-    font-weight: 600;
-    line-height: 110%;
-    margin: 81px 0px 81px 0px;
-    text-align: center;
+const LogoImg = styled.img`
+    width: 270px;
+    height: 45px;
+    margin: 122px auto 116px auto;
 `
 const FooterContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 1083px;
 `
-const LegalText = styled.div`
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 28px;
-    margin-bottom: 18.5px;
-`
-const CompanyContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
 const CompanyText = styled.div`
     color: #494B56;
     font-size: 16px;
     font-weight: 500;
     line-height: 28px;
+    margin-left: auto;
 `
 const CopyrightText = styled.div`
     color: #6E6E73;
@@ -210,8 +200,16 @@ const Home = () => {
   const navigate = useNavigate(); // 페이지 이동을 위해 useNavigate 훅 추가
 
     const handleStartClick = () => { // 로그인 페이지로 이동하는 함수 추가
-        navigate('/login');
+        const state = isLoggedIn();
+
+        if(state)
+            navigate('/memory'); // 로그인 되어있으면 추억하기 메인 페이지로 이동
+        else
+            navigate('/login'); // 로그인 안되어있으면 로그인 페이지로 이동
     };
+
+    const state = isLoggedIn();
+    console.log(state);
 
     return(
         <>
@@ -226,13 +224,12 @@ const Home = () => {
 
         <BackgroundColorContainer>
             <IntroContainer>
-                <MainText>000이 행복한 안녕을 도울게요.</MainText>
+                <MainText>퓨레버가 행복한 안녕을 도울게요.</MainText>
                 <ServiceInfoText>
-                    서비스 이름 뜻 설명<br/>
-                    웰빙(Well-being)만큼 중요한<br/>
-                    반려동물의 웰다잉(well-dying) 준비를 돕습니다.
+                    반려동물을 사랑했던 순수한 마음을 영원히 간직할 수 있게 돕는다는 의미를 담은 이름처럼<br/>
+                    웰빙(Well-being)만큼 중요한 반려동물의 웰다잉(well-dying) 준비를 돕습니다.
                 </ServiceInfoText>
-                <MintBtn>지금 바로 시작하기</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
+                <MintBtn onClick={handleStartClick}>지금 바로 시작하기</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
             </IntroContainer>
         </BackgroundColorContainer>
 
@@ -257,8 +254,7 @@ const Home = () => {
                     <MainText $align='right'>웰다잉을 위한 장소를 <br/> 찾아보세요</MainText>
                     <FeatureInfoText $align='right'>
                         전국 웰다잉 플레이스를 한번에 확인해요.<br/>
-                        70여개의 반려동물 장례식장과<br/>
-                        **개의 반려동물 호스피스 병원 정보를 통해<br/>
+                        반려동물 장례식장과 호스피스 병원 정보를 통해<br/>
                         <br></br>
                         마지막 여정을 편안하게 마무리하도록 도와드릴게요.
                     </FeatureInfoText>
@@ -269,7 +265,7 @@ const Home = () => {
 
         <BackgroundColorContainer>
             <ExpertContainer>
-                <TitleText $align='left'>힘껏 사랑하고 마음껏 행복하도록 <br/> <MintText>000</MintText>이 함께 도와드릴게요</TitleText>
+                <TitleText $align='left'>힘껏 사랑하고 마음껏 행복하도록 <br/> <MintText>퓨레버</MintText>가 함께 도와드릴게요</TitleText>
                 <QuoteContainers>
                     <Quote>
                         <DoctorText>정신과 전문의 이명수 원장</DoctorText>
@@ -309,13 +305,8 @@ const Home = () => {
 
         <BackgroundColorContainer>
             <FooterContainer>
-                <NameText>NAME</NameText>
-                <LegalText>이용약관 · 개인정보처리방침</LegalText>
-                <CompanyContainer>
-                    <CompanyText>법인명: ???????(주)</CompanyText>
-                    <CompanyText>홍익대학교 멋쟁이사자처럼 대학 12기 개발자국</CompanyText>
-                </CompanyContainer>
-                <CompanyText>(ㅁㄴㅇㄹ@ㅁㄻㄴㅇㄻㄴㅇ.com)· 주소: 서울특별시 마포구 4F · 02-</CompanyText>
+                <LogoImg src={Logo}/>
+                <CompanyText>홍익대학교 멋쟁이사자처럼 대학 12기 개발자국</CompanyText>
                 <GreyLine/>
                 <CopyrightText>Copyright © 2024 Likellion Hongik. All Rights Reserved.</CopyrightText>
             </FooterContainer>

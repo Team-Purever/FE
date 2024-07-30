@@ -5,6 +5,7 @@ import { Navbar } from "../components/Navbar/Navbar";
 import questions from "../assets/Data/questions.json";
 import { DiaryImageUpload } from "../components/Write, Edit Diary/DiaryImageUpload.js";
 import { DiaryInput } from "../components/Write, Edit Diary/DiaryInput.js";
+import { axiosInstance } from "../api/index.js";
 
 const MainContainer = styled.div`
     display: flex;
@@ -77,10 +78,25 @@ const WriteDiary = () => {
     // 새 질문 받아오기
     const newQuestions = (newDiaryId <= 15) ? questions[newDiaryId-1] : "오늘의 추억을 기록해주세요."; 
 
-    const handleInputChange = (event) => {
-        setDiaryText(event.target.value);
-    };
+    const submit = async() => {
+        const diaryData = {
+            title: newQuestions,
+            url: image, // 임시 사진 정보
+            content: diaryText
+        }
+        try{
+            const accessToken = localStorage.getItem('access_token');
+            const response = await axiosInstance.post(`/diaries/pets/${petId}/`, diaryData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            navigate(`/diary/${petId}`); // 해당 반려동물 추억일기장으로 이동
 
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <>
             <Navbar />
@@ -89,10 +105,10 @@ const WriteDiary = () => {
                 <QuestionText>{newQuestions}</QuestionText>
                 <ContentContainer>
                     <DiaryImageUpload image={image} setImage={setImage} />
-                    <DiaryInput value={diaryText} onChange={handleInputChange}/>
+                    <DiaryInput value={diaryText} onChange={(e) => setDiaryText(e.target.value)}/>
                 </ContentContainer>
                 <ButtonContainer>
-                    <MintButton>기록하기</MintButton>
+                    <MintButton onClick={submit}>기록하기</MintButton>
                     <WhiteButton onClick={() => {navigate(`/diary/${petId}`);}}>취소하기</WhiteButton>
                 </ButtonContainer>
             </MainContainer>

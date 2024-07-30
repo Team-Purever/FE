@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from "../components/Navbar/Navbar";
 import { PetImageUpload } from '../components/RegisterPet/PetImageUpload';
+import { axiosInstance } from '../api';
 
 const MainContainer = styled.div`
     display: flex;
@@ -88,7 +89,30 @@ const WhiteBtn = styled.div`
 const RegisterPet = () => {
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
+    const [name, setName] = useState('');
+    const [age, setAge] = useState(0);
 
+    const submit = async() => {
+        const petData = {
+            name: name,
+            age: parseInt(age),
+            url: image
+        };
+
+        try{
+            const accessToken = localStorage.getItem('access_token');
+            const response = await axiosInstance.post('/pets', petData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            const petId = response.data.data.petId;
+            navigate(`/diary/${petId}`); // 반려동물 정보를 등록하면 해당 반려동물 추억일기장으로 이동
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <>
             <Navbar />
@@ -98,16 +122,16 @@ const RegisterPet = () => {
                 <SubContainer>
                     <InputBox>
                         <InputText>이름</InputText>
-                        <Input type='text' maxLength='10' />
+                        <Input type='text' maxLength='10' value={name} onChange={(e) => setName(e.target.value)}/>
                     </InputBox>
                     <InfoText>* 1자 이상 10자 이내의 한글, 영문, 숫자 입력 가능합니다</InfoText>
                     <InputBox>
                         <InputText>나이</InputText>
-                        <Input type='number' />
+                        <Input type='number' value={age} onChange={(e) => setAge(e.target.value)} />
                     </InputBox>
                 </SubContainer>
                 <BtnContainer>
-                    <MintBtn>기록하기</MintBtn>
+                    <MintBtn onClick={submit}>기록하기</MintBtn>
                     <WhiteBtn onClick={() => { navigate('/diary'); }}>취소하기</WhiteBtn>
                 </BtnContainer>
             </MainContainer>

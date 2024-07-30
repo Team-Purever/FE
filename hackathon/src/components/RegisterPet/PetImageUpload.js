@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import plus from "../../assets/images/RegisterPet, ChoosePet, WriteDiary/plus.svg";
+import { axiosInstance } from '../../api';
 
 const UploadButton = styled.label`
     display: flex;
@@ -33,30 +34,31 @@ const ImagePreview = styled.img`
     left: 0;
 `;
 
-export const PetImageUpload = ({ image, setImage }) => {
-    // 임시 데이터
-    const response = {
-        data: {
-            url: "https://s3-alpha-sig.figma.com/img/8fcd/65d9/a4c3245bfdf0b26a01fb25d0f63a2469?Expires=1722816000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=J~XsnWk2x4fS6bogINT7r3jToFNSB32VG-pwBwlai-nGD5~lI~-HazNCKQdB7OcYU1~TLaYyyAI8lxfPcanilFNVrJHb4hsOKh2~8CmwZDTuK-xYB412F5Wuooz5nPM6Q1uaDi726QhttSG5Z0HHSB04g1bbcvfOgeEM6XKi3hqhfz7KCl9eoA9b7hw06wQReYl67kRYwP6a87BvELZ3QtkzzDn89D4Sf~rMBTgvi-3Z~ZBZh99n1bUMMIVN5TnXu7QCR0DwB~AF1pt-lpQl2dPIb6YWH~OmAnCXULSmLgroiU387YT5izqv-ePbX031DuCGStyZUAHvbZn6WSte~A__"
-        }
-    }
+export const PetImageUpload = ({image, setImage}) => {
 
-    const handleImageUpload = (event) => {
+    const handleImageUpload = async(event) => {
         const file = event.target.files[0];
         if (!file) {
             return;
         }
 
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('url', file);
 
         try {
-            // axios 코드
+            const accessToken = localStorage.getItem('access_token');
+            const response = await axiosInstance.post('/pets/img', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
+            console.log(response.data.data.url);
+            setImage(`http://localhost:8000${response.data.data.url}`);
+            console.log(image);
 
-            setImage(response.data.url);
-
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
     };
 
