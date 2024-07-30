@@ -51,4 +51,52 @@ axiosInstance.interceptors.response.use(
   
       return Promise.reject(error); // 에러 반환
     }
+<<<<<<< Updated upstream
   );
+=======
+  );*/
+
+// 반려동물 정보 조회 함수
+export const getPetInformation = async (petId) => {
+  try {
+      const response = await axiosInstance.get(`/pets/${petId}`);
+      return response.data;
+  } catch (error) {
+      console.error(error);
+      throw error;
+  }
+};
+
+// 반려동물 정보 수정 함수
+export const updatePetInformation = async (petId, data) => {
+  try {
+      const response = await axiosInstance.patch(`/pets/${petId}`, data);
+      return response.data;
+  } catch (error) {
+      console.error(error);
+      throw error;
+  }
+};
+
+// 사용자 정보 조회 함수
+export const getUserInformation = async () => {
+  try {
+      const response = await axiosInstance.get('/auth/user/info');
+      return response.data;
+  } catch (error) {
+      console.error(error);
+      throw error;
+  }
+};
+
+// 사용자 정보 수정 함수
+export const updateUserInformation = async (data) => {
+  try {
+      const response = await axiosInstance.patch('/auth/user/info', data);
+      return response.data;
+  } catch (error) {
+      console.error(error);
+      throw error;
+  }
+};
+>>>>>>> Stashed changes
