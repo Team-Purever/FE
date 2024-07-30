@@ -6,6 +6,7 @@ import RegisterPet from './pages/RegisterPet';
 import ChoosePet from './pages/ChoosePet';
 import DiaryList from './pages/DiaryList';
 import WriteDiary from './pages/WriteDiary';
+import EditDiary from './pages/EditDiary';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import KakaoLoginAuth from './pages/Login/KakaoLoginAuth';
@@ -27,6 +28,7 @@ function App() {
         <Route path='/diary' element={<ChoosePet/>}/>
         <Route path='/diary/:petId' element={<DiaryList />} />
         <Route path='/diary/:petId/write' element={<WriteDiary/>}/>
+        <Route path='/diary/:petId/edit' element={<EditDiary/>}/>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
 

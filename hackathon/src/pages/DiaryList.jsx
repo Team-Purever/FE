@@ -24,7 +24,7 @@ const DiaryList = () => {
     const [data, setData] = useState(null);
     const [daysPassed, setDaysPassed] = useState(1);
     const [newDiaryId, setNewDiaryId] = useState(1);
-    const [canAddDiary, setCanAddDiary] = useState(true);
+    const [canAddDiary, setCanAddDiary] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,6 +65,9 @@ const DiaryList = () => {
             const timeSinceRecent = today - new Date(recentDiary.created_at);
             const hoursSinceRecent = timeSinceRecent / (1000 * 60 * 60);
             setCanAddDiary(hoursSinceRecent >= 24);
+        } else {
+            setCanAddDiary(true);
+            setNewDiaryId(1);
         }
     }, [data]);
 
@@ -87,7 +90,8 @@ const DiaryList = () => {
                         {data.diaries.map((diary, index) => (
                             <DiaryItem 
                                 key={index}
-                                diary_id={data.diaries.length - index}
+                                diaryId={diary.id}
+                                diaryIndex={data.diaries.length - index}
                                 title={diary.title}
                                 content={diary.content}
                                 url={diary.url}

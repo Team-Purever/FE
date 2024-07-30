@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import closeBtn from "../../assets/images/DiaryList/closeBtn.svg"
+import { useState, useEffect } from "react";
+import { axiosInstance } from "../../api";
 
 const ModalOverlay = styled.div`
     position: fixed;
@@ -71,12 +73,30 @@ const Line = styled.div`
 `
 
 export const OtherPetModal = ({onClose}) => {
-    const pets = [
-        { petId: 1, name: "밥무", age: 3, url: "img/filename2.jpg" },
-        { petId: 2, name: "꼬순", age: 4, url: "img/filename1.jpg" },
-    ];
+    const [pets, setPets] = useState([]);
 
     const navigate = useNavigate();
+
+    const fetchData = async() => {
+        try{
+            const accessToken = localStorage.getItem('access_token');
+
+            const response = await axiosInstance.get('/pets',{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+
+            setPets(response.data.data.Pets)
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(()=> {
+        fetchData();
+    }, []);
 
     const handlePetClick = (petId) => {
         navigate(`/diary/${petId}`);

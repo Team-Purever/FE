@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import edit from "../../assets/images/DiaryList/edit.svg"
+import { useParams, useNavigate } from "react-router-dom";
 
 const MainContainer = styled.div`
     display: flex;
@@ -58,14 +59,20 @@ const Img = styled.img`
     margin-bottom: 77px;
 `
 
-export const DiaryItem = ({diary_id, title, content, url, date}) => {
+export const DiaryItem = ({diaryId, diaryIndex, title, content, url, date}) => {
+    const { petId } = useParams();
+    const navigate = useNavigate();
+
+    const handleEditClick = () => {
+        navigate(`/diary/${petId}/edit`, { state: { diaryId: diaryId, diaryIndex: diaryIndex, title: title, content: content, url: url } });
+    }
     return(
         <MainContainer>
             <TitleContainer>
-                <DiaryId>{diary_id}</DiaryId>
+                <DiaryId>{diaryIndex}</DiaryId>
                 <TitleText>{title}</TitleText>
                 <DateText>{date}</DateText>
-                <EditBtn src={edit}/>
+                <EditBtn src={edit} onClick={handleEditClick}/>
             </TitleContainer>
             <ContentText>{content}</ContentText>
             <Img src={url}/>
