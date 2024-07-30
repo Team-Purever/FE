@@ -208,9 +208,6 @@ const Home = () => {
             navigate('/login'); // 로그인 안되어있으면 로그인 페이지로 이동
     };
 
-    const state = isLoggedIn();
-    console.log(state);
-
     return(
         <>
         <BackgroundImgContainer1>

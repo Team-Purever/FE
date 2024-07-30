@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:8000",
+    baseURL: "http://ec2-43-201-159-179.ap-northeast-2.compute.amazonaws.com",
     headers: {
       'Content-Type': 'application/json',
     }
@@ -51,10 +51,7 @@ axiosInstance.interceptors.response.use(
   
       return Promise.reject(error); // 에러 반환
     }
-<<<<<<< Updated upstream
-  );
-=======
-  );*/
+)
 
 // 반려동물 정보 조회 함수
 export const getPetInformation = async (petId) => {
@@ -99,4 +96,3 @@ export const updateUserInformation = async (data) => {
       throw error;
   }
 };
->>>>>>> Stashed changes

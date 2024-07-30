@@ -54,7 +54,7 @@ export const PetImageUpload = ({image, setImage}) => {
                 }
             })
             console.log(response.data.data.url);
-            setImage(`http://localhost:8000${response.data.data.url}`);
+            setImage(`http://ec2-43-201-159-179.ap-northeast-2.compute.amazonaws.com${response.data.data.url}`);
             console.log(image);
 
         } catch (error) {

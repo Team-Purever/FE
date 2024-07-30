@@ -46,6 +46,14 @@ const MintBtn = styled.div`
 `
 const Memory = () => {
     const navigate = useNavigate();
+    const handleDiaryClick = () => { // 로그인 페이지로 이동하는 함수 추가
+        const state = isLoggedIn();
+
+        if(state)
+            navigate('/diary'); // 로그인 되어있으면 추억하기 메인 페이지로 이동
+        else
+            navigate('/login'); // 로그인 안되어있으면 로그인 페이지로 이동
+    };
     return(
         <BackgroundContainer>
             <Navbar/>
@@ -55,7 +63,7 @@ const Memory = () => {
                     하루하루 다르게 주어지는 질문들에 답하며 <br/>
                     사랑하는 반려동물과의 추억들을 되돌아 보세요.
                 </SubText>
-                <MintBtn onClick={() => {navigate('/diary');}}>추억 일기장</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
+                <MintBtn onClick={handleDiaryClick}>추억 일기장</MintBtn> {/*로그인 여부에 따라 다른 페이지로 이동하도록 해야됨*/}
             </Container>
         </BackgroundContainer>
     );   
