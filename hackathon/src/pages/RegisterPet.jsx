@@ -9,6 +9,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     height: 87vh; // navbar 13vh 뺀 나머지
+    min-height: 750px;
     justify-content: space-between;
     align-items: center;
 `;

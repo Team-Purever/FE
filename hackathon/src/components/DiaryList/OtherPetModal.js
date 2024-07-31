@@ -23,7 +23,6 @@ const ModalContainer = styled.div`
     padding: 79px 78px;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     gap: 52px;
     flex-shrink: 0;
     background-color: white;
@@ -52,9 +51,14 @@ const PetImage = styled.img`
     box-shadow: 0px 30px 60px 0px rgba(122, 127, 131, 0.20);
     object-fit: cover;
 `;
-const PetInfoContainer = styled.div`
+const PetNameAge = styled.div`
     display: flex;
     align-items: center;
+`
+const PetInfoContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 `
 const PetName = styled.div`
     font-size: 32px;
@@ -71,23 +75,58 @@ const Line = styled.div`
     height: 28px;
     margin: 0px 13px;
 `
+const DateText = styled.div`
+    color: #494B56;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+`
 
 export const OtherPetModal = ({onClose}) => {
     const [pets, setPets] = useState([]);
-
     const navigate = useNavigate();
+
+    // pet의 diary 정보를 가져와서 pets에 추가
+    const fetchDiary = async (petsData) => {
+        const accessToken = localStorage.getItem('access_token');
+        for (const pet of petsData) {
+            try {
+                const diaryResponse = await axiosInstance.get(`/diaries/${pet.petId}/diary`,{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+                const diaries = diaryResponse.data.data.diaries;
+                if (diaries && diaries.length > 0){
+                    const firstDiary = diaries[diaries.length - 1];
+                    const firstDate = new Date(firstDiary.created_at.split('T')[0]);
+                    const today = new Date();
+
+                    const timeSinceFirst = today-firstDate;
+                    const daySinceFirst = Math.ceil(timeSinceFirst / (1000 * 60 * 60 * 24));
+                    // pet에 date라는 프로퍼티 추가. 며칠 지났는지에 대한 정보.
+                    pet.date = daySinceFirst;
+                } else {
+                    pet.date = 1;
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        setPets([...petsData]);
+    }
 
     const fetchData = async() => {
         try{
             const accessToken = localStorage.getItem('access_token');
 
-            const response = await axiosInstance.get('/pets',{
+            const petResponse = await axiosInstance.get('/pets',{
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
-            })
-
-            setPets(response.data.data.Pets)
+            });
+            const petsData = petResponse.data.data.Pets;
+            await fetchDiary(petsData)
             
         } catch (error) {
             console.error(error);
@@ -111,9 +150,12 @@ export const OtherPetModal = ({onClose}) => {
                     <PetItem key={pet.petId} onClick={() => handlePetClick(pet.petId)}>
                         <PetImage src={pet.url} alt={pet.name} />
                         <PetInfoContainer>
-                            <PetName>{pet.name}</PetName>
-                            <Line/>
-                            <PetAge>{pet.age}살</PetAge>
+                            <PetNameAge>
+                                <PetName>{pet.name}</PetName>
+                                <Line/>
+                                <PetAge>{pet.age}살</PetAge>
+                            </PetNameAge>
+                            <DateText>추억 기록한지 {pet.date}일째</DateText>
                         </PetInfoContainer>
                     </PetItem>
                 ))}
