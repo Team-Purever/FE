@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Navbar } from '../components/Navbar/Navbar';
 import searchIcon from '../assets/images/Places/search.png';
@@ -10,10 +10,36 @@ import linkIcon from '../assets/images/Places/link.svg';
 import dropdownIcon from '../assets/images/Places/dropdown1.svg';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { getPlaces } from '../api';
-import { useEffect } from 'react';
+import axios from 'axios';
 
+const axiosInstance = axios.create({
+  baseURL: "http://ec2-43-201-159-179.ap-northeast-2.compute.amazonaws.com",
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
 
+// 장소 정보 조회 함수
+const fetchPlacesData = async (city, category, page) => {
+  try {
+    const params = { city, page };
+    if (category) {
+      params.category = category;
+    }
+    const accessToken = localStorage.getItem('access_token');
+
+    const response = await axiosInstance.get('/places', {
+       headers: {
+        Authorization: `Bearer ${accessToken}`
+       },
+        params
+    });
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const Container = styled.div`
     display: flex;
@@ -170,7 +196,6 @@ const StyledPagination = styled(Pagination)`
     }
 `;
 
-
 const DropdownContainer = styled.div`
     display: flex;
     width: 250px;
@@ -216,82 +241,42 @@ const DropdownListItem = styled.li`
     }
 `;
 
-
 const Places = () => {
     const [placesData, setPlacesData] = useState([]);
-    const [selectedFilter, setSelectedFilter] = useState('search');
+    const [selectedFilter, setSelectedFilter] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCity, setSelectedCity] = useState('시/도 선택');
+    const [selectedCity, setSelectedCity] = useState(null);
+    const [page, setPage] = useState(1);
 
     const toggleDropdown = () => setIsOpen(!isOpen);
     const handleSelectCity = (city) => {
         setSelectedCity(city);
         setIsOpen(false);
+        fetchPlaces(city, selectedFilter, page);
     };
-    const fetchPlaces = async (city, category) => {
-      try {
-          const data = await getPlaces(city, category);
-          setPlacesData(data.results.data);
-      } catch (error) {
-          console.error(error);
-      }
-  };
 
-  useEffect(() => {
-      fetchPlaces(selectedCity, selectedFilter);
-  }, [selectedCity, selectedFilter]);
+    const fetchPlaces = async (city, category, page) => {
+        try {
+            const data = await fetchPlacesData(city, category, page);
+            setPlacesData(data.results.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-    /*const placesData = [
-        {
-            id: 1,
-            name: '펫포유',
-            address: '서울특별시 강남구 강남대로',
-            number: '1533-4426',
-            url: 'http://www.petforyou.kr',
-            imgUrl: 'https://via.placeholder.com/300',
-        },
-        {
-            id: 2,
-            name: '펫포유',
-            address: '서울특별시 강남구 강남대로',
-            number: '1533-4426',
-            url: 'http://www.petforyou.kr',
-            imgUrl: 'https://via.placeholder.com/300',
-        },
-        {
-            id: 3,
-            name: '펫포유',
-            address: '서울특별시 강남구 강남대로',
-            number: '1533-4426',
-            url: 'http://www.petforyou.kr',
-            imgUrl: 'https://via.placeholder.com/300',
-        },
-        {
-            id: 4,
-            name: '펫포유',
-            address: '서울특별시 강남구 강남대로',
-            number: '1533-4426',
-            url: 'http://www.petforyou.kr',
-            imgUrl: 'https://via.placeholder.com/300',
-        },
-        {
-            id: 5,
-            name: '펫포유',
-            address: '서울특별시 강남구 강남대로',
-            number: '1533-4426',
-            url: 'http://www.petforyou.kr',
-            imgUrl: 'https://via.placeholder.com/300',
-        },
-        {
-            id: 6,
-            name: '펫포유',
-            address: '서울특별시 강남구 강남대로',
-            number: '1533-4426',
-            url: 'http://www.petforyou.kr',
-            imgUrl: 'https://via.placeholder.com/300',
-        },
-    ];
-*/
+    useEffect(() => {
+        fetchPlaces(selectedCity, selectedFilter, page);
+    }, [selectedCity, selectedFilter, page]);
+
+    const handleFilterChange = (filter) => {
+        setSelectedFilter(filter);
+        setPage(1); // 페이지를 1로 초기화
+    };
+
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
+
     const cities = [
         '시/도 선택',
         '서울특별시',
@@ -310,64 +295,63 @@ const Places = () => {
         '경상북도',
         '경상남도',
         '제주특별자치도',
-    ];
-
-    return (
-      <Container>
-          <Navbar />
-          <PageContainer>
-              <Header>반려동물과의 따뜻한 배웅을 위한 장소</Header>
-              <SubHeader>반려동물의 마지막 여정을 준비할 수 있는 웰다잉 관련 장소 정보를 찾아볼 수 있어요</SubHeader>
-              <FilterContainer>
-                  <FilterButton onClick={() => setSelectedFilter('search')}>
-                      <FilterIcon src={searchIcon} alt="검색" />
-                  </FilterButton>
-                  <FilterButton onClick={() => setSelectedFilter('funeral')}>
-                      <FilterIcon src={funeralIcon} alt="장례식장" />
-                  </FilterButton>
-                  <FilterButton onClick={() => setSelectedFilter('hospeace')}>
-                      <FilterIcon src={hospeaceIcon} alt="호스피스" />
-                  </FilterButton>
-              </FilterContainer>
-              <DropdownContainer>
-                  <DropdownHeader onClick={toggleDropdown}>
-                      {selectedCity}
-                      <img src={dropdownIcon} alt="드롭다운" />
-                  </DropdownHeader>
-                  <DropdownList isOpen={isOpen}>
-                      {cities.map((city) => (
-                          <DropdownListItem key={city} onClick={() => handleSelectCity(city)}>
-                              {city}
-                          </DropdownListItem>
+        ];
+        return (
+          <Container>
+              <Navbar />
+              <PageContainer>
+                  <Header>반려동물과의 따뜻한 배웅을 위한 장소</Header>
+                  <SubHeader>반려동물의 마지막 여정을 준비할 수 있는 웰다잉 관련 장소 정보를 찾아볼 수 있어요</SubHeader>
+                  <FilterContainer>
+                      <FilterButton onClick={() => handleFilterChange('search')}>
+                          <FilterIcon src={searchIcon} alt="검색" />
+                      </FilterButton>
+                      <FilterButton onClick={() => handleFilterChange('funeral')}>
+                          <FilterIcon src={funeralIcon} alt="장례식장" />
+                      </FilterButton>
+                      <FilterButton onClick={() => handleFilterChange('hospeace')}>
+                          <FilterIcon src={hospeaceIcon} alt="호스피스" />
+                      </FilterButton>
+                  </FilterContainer>
+                  <DropdownContainer>
+                      <DropdownHeader onClick={toggleDropdown}>
+                          {selectedCity}
+                          <img src={dropdownIcon} alt="드롭다운" />
+                      </DropdownHeader>
+                      <DropdownList isOpen={isOpen}>
+                          {cities.map((city) => (
+                              <DropdownListItem key={city} onClick={() => handleSelectCity(city)}>
+                                  {city}
+                              </DropdownListItem>
+                          ))}
+                      </DropdownList>
+                  </DropdownContainer>
+                  <PlacesContainer>
+                      {placesData.map((place) => (
+                          <PlaceCard key={place.id}>
+                              <PlaceImage imgUrl={place.imgUrl} />
+                              <PlaceName>{place.name}</PlaceName>
+                              <PlaceInfo>
+                                  <PlaceIcon src={mapIcon} alt="주소 아이콘" />
+                                  <PlaceText>{place.address}</PlaceText>
+                              </PlaceInfo>
+                              <PlaceInfo>
+                                  <PlaceIcon src={callIcon} alt="전화 아이콘" />
+                                  <PlaceText>{place.number}</PlaceText>
+                              </PlaceInfo>
+                              <PlaceInfo>
+                                  <PlaceIcon src={linkIcon} alt="웹사이트 아이콘" />
+                                  <PlaceText><a href={place.url}>{place.url}</a></PlaceText>
+                              </PlaceInfo>
+                          </PlaceCard>
                       ))}
-                  </DropdownList>
-              </DropdownContainer>
-              <PlacesContainer>
-                  {placesData.map((place) => (
-                      <PlaceCard key={place.id}>
-                          <PlaceImage imgUrl={place.imgUrl} />
-                          <PlaceName>{place.name}</PlaceName>
-                          <PlaceInfo>
-                              <PlaceIcon src={mapIcon} alt="주소 아이콘" />
-                              <PlaceText>{place.address}</PlaceText>
-                          </PlaceInfo>
-                          <PlaceInfo>
-                              <PlaceIcon src={callIcon} alt="전화 아이콘" />
-                              <PlaceText>{place.number}</PlaceText>
-                          </PlaceInfo>
-                          <PlaceInfo>
-                              <PlaceIcon src={linkIcon} alt="웹사이트 아이콘" />
-                              <PlaceText><a href={place.url}>{place.url}</a></PlaceText>
-                          </PlaceInfo>
-                      </PlaceCard>
-                  ))}
-              </PlacesContainer>
-              <Stack spacing={2}>
-                  <StyledPagination count={10} />
-              </Stack>
-          </PageContainer>
-      </Container>
-  );
-  };
+                  </PlacesContainer>
+                  <Stack spacing={2}>
+                      <StyledPagination count={10} page={page} onChange={handlePageChange} />
+                  </Stack>
+              </PageContainer>
+          </Container>
+      );
+    };
 
-  export default Places;
+    export default Places;
