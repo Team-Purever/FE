@@ -98,7 +98,7 @@ export const updateUserInformation = async (data) => {
 };
 
 // 장소 정보 조회 함수
-export const getPlaces = async (city = '', category = '', page = 1) => {
+export const getPlaces = async (city = null, category = null, page = 1) => {
   try {
       const accessToken = localStorage.getItem('access_token');
       const response = await axiosInstance.get('/places', {
@@ -107,6 +107,7 @@ export const getPlaces = async (city = '', category = '', page = 1) => {
           },
           params: { city, category, page },
       });
+      console.log(response.data);
       return response.data;
   } catch (error) {
       console.error('Error fetching places data:', error);

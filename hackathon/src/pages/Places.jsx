@@ -10,6 +10,10 @@ import linkIcon from '../assets/images/Places/link.svg';
 import dropdownIcon from '../assets/images/Places/dropdown1.svg';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { getPlaces } from '../api';
+import { useEffect } from 'react';
+
+
 
 const Container = styled.div`
     display: flex;
@@ -218,6 +222,7 @@ const DropdownListItem = styled.li`
 
 
 const Places = () => {
+    const [placesData, setPlacesData] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState('search');
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCity, setSelectedCity] = useState('시/도 선택');
@@ -227,8 +232,20 @@ const Places = () => {
         setSelectedCity(city);
         setIsOpen(false);
     };
+    const fetchPlaces = async (city, category) => {
+      try {
+          const data = await getPlaces(city, category);
+          setPlacesData(data.results.data);
+      } catch (error) {
+          console.error(error);
+      }
+  };
 
-    const placesData = [
+  useEffect(() => {
+      fetchPlaces(selectedCity, selectedFilter);
+  }, [selectedCity, selectedFilter]);
+
+    /*const placesData = [
         {
             id: 1,
             name: '펫포유',
@@ -278,7 +295,7 @@ const Places = () => {
             imgUrl: 'https://via.placeholder.com/300',
         },
     ];
-
+*/
     const cities = [
         '시/도 선택',
         '서울특별시',
