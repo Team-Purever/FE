@@ -75,6 +75,10 @@ export const updatePetInformation = async (petId, data) => {
   }
 };
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 // 사용자 정보 수정 함수
 export const updateUserInformation = async (data) => {
