@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import background from '../assets/images/Memory/background.png'
 import { Navbar } from "../components/Navbar/Navbar";
+import { isLoggedIn } from '../api/isLoggedIn';
 
 const BackgroundContainer = styled.div`
     background-image: url(${background});

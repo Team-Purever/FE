@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { isLoggedIn } from '../../api/isLoggedIn';
 import logo from '../../assets/images/Navbar/PUREVER.svg';
 
 const NavbarContainer = styled.div`
@@ -37,7 +38,12 @@ export const Navbar = () => {
     const navigate = useNavigate(); // navigate 변수를 선언합니다.
 
     const handleProfileClick = () => {
-        navigate('/editme');
+        const state = isLoggedIn();
+
+        if(state)
+            navigate('/edit-me'); // 로그인 되어있으면 마이 페이지로 이동
+        else
+            navigate('/login'); // 로그인 안되어있으면 로그인 페이지로 이동
     };
 
     return (
@@ -45,7 +51,7 @@ export const Navbar = () => {
       <Logo src={logo} onClick={() => { navigate('/'); }} />
       <MenuText onClick={() => { navigate('/memory'); }}>추억하기</MenuText>
       <MenuText onClick={() => { navigate('/places'); }}>장소 찾기</MenuText>
-      <MyProfileBtn onClick={() => { navigate('/edit-me'); }} />
+      <MyProfileBtn onClick={ handleProfileClick } />
     </NavbarContainer>
   );
 };
