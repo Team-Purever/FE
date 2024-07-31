@@ -241,6 +241,12 @@ const EditMe = () => {
         }
     };
 
+    const logout = () => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        navigate('/')
+    }
+
     return (
         <>
             <Navbar />
@@ -275,7 +281,7 @@ const EditMe = () => {
                     </SelectContainer>
                     <ButtonContainer>
                         <Button onClick={updateUserInformation}>저장하기</Button>
-                        <LogoutButton>로그아웃</LogoutButton>
+                        <LogoutButton onClick={logout}>로그아웃</LogoutButton>
                     </ButtonContainer>
                 </FormContainer>
             </PageContainer>

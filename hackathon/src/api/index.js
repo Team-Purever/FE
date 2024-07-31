@@ -95,7 +95,11 @@ export const getPlaces = async (city = null, category = null, page = 1) => {
           headers: {
               Authorization: `Bearer ${accessToken}`,
           },
-          params: { city, category, page },
+          params: { 
+            city: city,
+            category: category,
+            page: page
+          },
       });
       console.log(response.data);
       return response.data;
