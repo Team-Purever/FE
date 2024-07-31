@@ -7,7 +7,6 @@ export const axiosInstance = axios.create({
     }
 });
 
-
 // 토큰 재발급 함수
 const reissueToken = async () => {
     const refreshToken = localStorage.getItem('refresh_token');
@@ -51,7 +50,7 @@ axiosInstance.interceptors.response.use(
   
       return Promise.reject(error); // 에러 반환
     }
-)
+);
 
 // 반려동물 정보 조회 함수
 export const getPetInformation = async (petId) => {
@@ -75,6 +74,16 @@ export const updatePetInformation = async (petId, data) => {
   }
 };
 
+// 사용자 정보 조회 함수
+export const getUserInformation = async () => {
+  try {
+      const response = await axiosInstance.get('/auth/user/info');
+      return response.data;
+  } catch (error) {
+      console.error(error);
+      throw error;
+  }
+};
 
 // 사용자 정보 수정 함수
 export const updateUserInformation = async (data) => {
@@ -88,23 +97,25 @@ export const updateUserInformation = async (data) => {
 };
 
 // 장소 정보 조회 함수
-export const getPlaces = async (city = null, category = null, page = 1) => {
+export const getPlaces = async (city, category, page) => {
   try {
-      const accessToken = localStorage.getItem('access_token');
-      const response = await axiosInstance.get('/places/', {
-          headers: {
-              Authorization: `Bearer ${accessToken}`,
-          },
-          params: { 
-            //city: city,
-            //category: category,
-            page: page
-          },
-      });
-      console.log(response.data);
-      return response.data;
+    const response = await axiosInstance.get('/places', {
+      params: { city, category, page }
+    });
+    return response.data;
   } catch (error) {
-      console.error('Error fetching places data:', error);
-      throw error;
+    console.error(error);
+    throw error;
+  }
+};
+
+// 회원 탈퇴 함수
+export const deleteUserAccount = async () => {
+  try {
+    const response = await axiosInstance.delete('/auth/user/info');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
