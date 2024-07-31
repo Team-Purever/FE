@@ -4,6 +4,7 @@ import { Navbar } from '../components/Navbar/Navbar'; // 경로 수정
 import dropdownIcon from '../assets/images/Mypage/dropdown.svg'; // 경로 수정
 import { useNavigate } from 'react-router-dom'; 
 import { axiosInstance } from '../api';
+import { getUserInformation, updateUserInformation, deleteUserAccount } from '../api';
 
 const PageContainer = styled.div`
     display: flex;
