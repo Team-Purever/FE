@@ -242,6 +242,21 @@ const EditMe = () => {
         }
     };
 
+    const deleteUserInformation = async () => {
+        try {
+            const accessToken = localStorage.getItem('access_token');
+            const response = await axiosInstance.delete('/auth/user/info', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            logout();
+            navigate('/');
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const logout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
@@ -267,7 +282,7 @@ const EditMe = () => {
                         <InputLabel>휴대폰 번호</InputLabel>
                         <InputField type="text" placeholder="휴대폰 번호" value={number} onChange={(e) => setNumber(e.target.value)} />
                     </InputContainer>
-                    <DeleteAccountText>회원 탈퇴하기</DeleteAccountText>
+                    <DeleteAccountText onClick={deleteUserInformation}>회원 탈퇴하기</DeleteAccountText>
                     <SectionTitle>반려동물 관리</SectionTitle>
                     <SelectContainer onClick={handleDropdownClick}>
                         <Select value={selectedOption} readOnly>

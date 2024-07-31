@@ -75,10 +75,6 @@ export const updatePetInformation = async (petId, data) => {
   }
 };
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 // 사용자 정보 수정 함수
 export const updateUserInformation = async (data) => {
@@ -95,13 +91,13 @@ export const updateUserInformation = async (data) => {
 export const getPlaces = async (city = null, category = null, page = 1) => {
   try {
       const accessToken = localStorage.getItem('access_token');
-      const response = await axiosInstance.get('/places', {
+      const response = await axiosInstance.get('/places/', {
           headers: {
               Authorization: `Bearer ${accessToken}`,
           },
           params: { 
-            city: city,
-            category: category,
+            //city: city,
+            //category: category,
             page: page
           },
       });
