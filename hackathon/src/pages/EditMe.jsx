@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Navbar } from '../components/Navbar/Navbar'; // 경로 수정
 import dropdownIcon from '../assets/images/Mypage/dropdown.svg'; // 경로 수정
 import { useNavigate } from 'react-router-dom'; 
-import { getUserInformation, updateUserInformation } from '../api';
+import { axiosInstance } from '../api';
 
 const PageContainer = styled.div`
     display: flex;
@@ -25,7 +25,6 @@ const FormContainer = styled.div`
 const Title = styled.h1`
     color: var(--kakao-logo, #000);
     text-align: center;
-    font-family: Pretendard;
     font-size: 32px;
     font-style: normal;
     font-weight: 700;
@@ -62,12 +61,10 @@ const InputField = styled.input`
     border: none;
     outline: none;
     font-size: 16px;
-    font-family: Pretendard;
 `;
 
 const InfoText = styled.div`
     color: var(--grey1, #212121);
-    font-family: SUIT;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -109,7 +106,6 @@ const Select = styled.select`
     outline: none;
     appearance: none;
     font-size: 16px;
-    font-family: Pretendard;
     background: transparent;
     padding-right: 40px; /* 드롭다운 아이콘과 텍스트가 겹치지 않도록 패딩 추가 */
     cursor: pointer;
@@ -187,7 +183,6 @@ const LogoutButton = styled(Button)`
 const DeleteAccountText = styled.div`
     color: var(--grey2, #494B56);
     text-align: center;
-    font-family: SUIT;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -200,7 +195,6 @@ const DeleteAccountText = styled.div`
 const SectionTitle = styled.h2`
     color: var(--kakao-logo, #000);
     text-align: center;
-    font-family: Pretendard;
     font-size: 32px;
     font-style: normal;
     font-weight: 700;
@@ -211,6 +205,10 @@ const SectionTitle = styled.h2`
 const EditMe = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('선택');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [number, setNumber] = useState('');
+
     const navigate = useNavigate();
 
     const handleDropdownClick = () => {
@@ -223,6 +221,26 @@ const EditMe = () => {
         navigate('/edit-pet'); 
     };
 
+    // 사용자 정보 수정
+    const updateUserInformation = async () => {
+        const userData = {
+            name: name,
+            email: email,
+            number: number
+        };
+        try {
+            const accessToken = localStorage.getItem('access_token');
+            const response = await axiosInstance.patch('/auth/user/info', userData, {
+                headrs: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+        });
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <>
             <Navbar />
@@ -231,16 +249,16 @@ const EditMe = () => {
                     <Title>회원정보 수정</Title>
                     <InputContainer>
                         <InputLabel>이름</InputLabel>
-                        <InputField type="text" placeholder="이름" />
+                        <InputField type="text" placeholder="이름" value={name} onChange={(e) => setName(e.target.value)}/>
                     </InputContainer>
                     <InfoText>* 1자 이상 10자 이내의 한글, 영문, 숫자 입력 가능합니다</InfoText>
                     <InputContainer>
                         <InputLabel>이메일</InputLabel>
-                        <InputField type="email" placeholder="이메일" />
+                        <InputField type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </InputContainer>
                     <InputContainer>
                         <InputLabel>휴대폰 번호</InputLabel>
-                        <InputField type="text" placeholder="휴대폰 번호" />
+                        <InputField type="text" placeholder="휴대폰 번호" value={number} onChange={(e) => setNumber(e.target.value)} />
                     </InputContainer>
                     <DeleteAccountText>회원 탈퇴하기</DeleteAccountText>
                     <SectionTitle>반려동물 관리</SectionTitle>
@@ -256,7 +274,7 @@ const EditMe = () => {
                         )}
                     </SelectContainer>
                     <ButtonContainer>
-                        <Button>저장하기</Button>
+                        <Button onClick={updateUserInformation}>저장하기</Button>
                         <LogoutButton>로그아웃</LogoutButton>
                     </ButtonContainer>
                 </FormContainer>

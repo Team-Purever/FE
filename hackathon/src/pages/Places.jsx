@@ -30,7 +30,6 @@ const PageContainer = styled.div`
 const Header = styled.h1`
     color: var(--kakao-logo, #000);
     text-align: center;
-    font-family: Pretendard;
     font-size: 48px;
     font-style: normal;
     font-weight: 700;
@@ -42,7 +41,6 @@ const Header = styled.h1`
 const SubHeader = styled.p`
     color: var(--grey-1, #212121);
     text-align: center;
-    font-family: Pretendard;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -133,7 +131,6 @@ const PlaceName = styled.h3`
     justify-content: center;
     flex-shrink: 0;
     color: var(--kakao-logo, #000);
-    font-family: Pretendard;
     font-size: 32px;
     font-style: normal;
     font-weight: 700;
@@ -161,7 +158,6 @@ const PlaceText = styled.span`
 const StyledPagination = styled(Pagination)`
     .MuiPaginationItem-root {
         color: #697077;
-        font-family: Roboto;
         font-size: 20px;
         font-style: normal;
         font-weight: 500;

@@ -75,16 +75,6 @@ export const updatePetInformation = async (petId, data) => {
   }
 };
 
-// 사용자 정보 조회 함수
-export const getUserInformation = async () => {
-  try {
-      const response = await axiosInstance.get('/auth/user/info');
-      return response.data;
-  } catch (error) {
-      console.error(error);
-      throw error;
-  }
-};
 
 // 사용자 정보 수정 함수
 export const updateUserInformation = async (data) => {
