@@ -74,6 +74,10 @@ const MintBtn = styled.div`
     font-weight: 700;
     line-height: 110%;
     cursor: pointer;
+
+    &:hover {
+        background-color: #5cc3d3;
+    }
 `;
 const WhiteBtn = styled.div`
     padding: 24px 61px;
@@ -85,6 +89,10 @@ const WhiteBtn = styled.div`
     font-weight: 700;
     line-height: 110%;
     cursor: pointer;
+
+    &:hover {
+        background-color: #f0f8fb;
+    }
 `;
 const ErrorText = styled.div`
     color: red;

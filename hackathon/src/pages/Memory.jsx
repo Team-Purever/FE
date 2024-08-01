@@ -44,6 +44,10 @@ const MintBtn = styled.div`
     text-align: center;
     font-size: 24px;
     font-weight: 600;
+    
+    &:hover {
+        background-color: #5cc3d3;
+    }
 `
 const Memory = () => {
     const navigate = useNavigate();

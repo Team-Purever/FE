@@ -80,6 +80,10 @@ const MintBtn = styled.div`
     font-size: 24px;
     font-weight: 600;
     line-height: 110%;
+
+    &:hover {
+        background-color: #5cc3d3;
+    }
 `
 const BackgroundContainer = styled.div`
     display: flex;

@@ -48,6 +48,10 @@ const MintButton = styled.div`
     font-size: 24px;
     font-weight: 700;
     line-height: 110%;
+
+    &:hover {
+        background-color: #5cc3d3;
+    }
 `;
 const WhiteButton = styled.div`
     display: flex;
@@ -61,6 +65,10 @@ const WhiteButton = styled.div`
     font-size: 24px;
     font-weight: 700;
     line-height: 110%;
+
+    &:hover {
+        background-color: #f0f8fb;
+    }
 `;
 
 

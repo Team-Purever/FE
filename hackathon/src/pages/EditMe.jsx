@@ -282,6 +282,7 @@ const EditMe = () => {
                         Authorization: `Bearer ${accessToken}`
                     }
             });
+            alert('저장되었습니다.');
 
             } catch (error) {
                 console.error(error);
@@ -307,17 +308,20 @@ const EditMe = () => {
 
     // 회원 탈퇴
     const deleteUserInformation = async () => {
-        try {
-            const accessToken = localStorage.getItem('access_token');
-            const response = await axiosInstance.delete('/auth/user/info', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            logout();
-            navigate('/');
-        } catch (error) {
-            console.error(error);
+        if(window.confirm('정말로 탈퇴하시겠습니까?')){
+            try {
+                const accessToken = localStorage.getItem('access_token');
+                const response = await axiosInstance.delete('/auth/user/info', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+                alert('탈퇴되었습니다.');
+                logout();
+                navigate('/');
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 

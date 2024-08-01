@@ -16,6 +16,10 @@ const PetImage = styled.img`
     object-fit: cover;
     box-shadow: 0px 30px 60px 0px rgba(122, 127, 131, 0.20);
     cursor: pointer;
+
+    &:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 회색 오버레이 */
+    }
 `
 const PetInfoContainer = styled.div`
     display: flex;

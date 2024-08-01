@@ -203,16 +203,20 @@ export const EditPet = ({petId, onClose, onSave}) => {
     };
 
     const deletePet = async() => {
-        const accessToken = localStorage.getItem('access_token');
-        try {
-            const response = await axiosInstance.delete(`/pets/${petId}`,{
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            onSave();
-        } catch (error) {
-            console.log(error);
+        if(window.confirm('정말로 삭제하시겠습니까?')){
+            const accessToken = localStorage.getItem('access_token');
+            try {
+                const response = await axiosInstance.delete(`/pets/${petId}`,{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                onSave();
+                alert('삭제되었습니다.');
+                onClose();
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -231,7 +235,7 @@ export const EditPet = ({petId, onClose, onSave}) => {
         } else {
             setAgeError(false);
         }
-        
+
         if(valid) {
             const petData = {
                 name: name,
@@ -247,6 +251,7 @@ export const EditPet = ({petId, onClose, onSave}) => {
                     }
                 })
                 onSave();
+                alert('저장되었습니다.');
             } catch (error) {
                 console.error(error);
             }
