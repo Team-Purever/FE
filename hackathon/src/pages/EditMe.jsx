@@ -4,6 +4,7 @@ import { Navbar } from '../components/Navbar/Navbar'; // 경로 수정
 import dropdownIcon from '../assets/images/Mypage/dropdown.svg'; // 경로 수정
 import { useNavigate } from 'react-router-dom'; 
 import { axiosInstance } from '../api';
+import { EditPet } from '../components/Edit/EditPet';
 
 const PageContainer = styled.div`
     display: flex;
@@ -120,9 +121,9 @@ const OptionList = styled.div`
     flex-shrink: 0;
     position: absolute;
     top: 66px;
-    left: 0;
+    left: 20px;
     right: 0;
-    background: var(--Neutral-colors-100, #FFF);
+    background: white;
     border: 1px solid var(--grey5, #B9C0C8);
     border-radius: 8px;
     box-shadow: 0px 30px 60px 0px rgba(122, 127, 131, 0.20);
@@ -203,23 +204,34 @@ const SectionTitle = styled.h2`
 
 const EditMe = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('선택');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [petData, setPetData] = useState([]);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
+    const [petId, setPetId] = useState(0);
 
     const navigate = useNavigate();
 
+    // 펫 정보 수정 모달창
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    // 펫 목록 드롭다운
     const handleDropdownClick = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
     const handleOptionClick = (petId) => {
-        setSelectedOption(petId);
-        console.log(selectedOption);
+        setPetId(petId);
+        
+        openModal();
         setIsDropdownOpen(false);
-        navigate('/edit-pet'); 
     };
 
     // 사용자 정보 수정
@@ -307,8 +319,8 @@ const EditMe = () => {
                     <DeleteAccountText onClick={deleteUserInformation}>회원 탈퇴하기</DeleteAccountText>
                     <SectionTitle>반려동물 관리</SectionTitle>
                     <SelectContainer onClick={handleDropdownClick}>
-                        <Select value={selectedOption} readOnly>
-                            <option value="">{selectedOption}</option>
+                        <Select readOnly>
+                            <option value="">선택</option>
                         </Select>
                         {isDropdownOpen && (
                             <OptionList>
@@ -323,6 +335,7 @@ const EditMe = () => {
                         <LogoutButton onClick={logout}>로그아웃</LogoutButton>
                     </ButtonContainer>
                 </FormContainer>
+                {isModalOpen && <EditPet petId={petId} onClose={closeModal} onSave={fetchPetList}/> }
             </PageContainer>
         </>
     );

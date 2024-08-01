@@ -95,7 +95,7 @@ const ErrorText = styled.div`
 `
 
 const isValidName = (name) => {
-    const regex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|]+$/;
+    const regex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
     return regex.test(name);
 };
 

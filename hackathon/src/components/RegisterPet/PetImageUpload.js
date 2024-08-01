@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import plus from "../../assets/images/RegisterPet, ChoosePet, WriteDiary/plus.svg";
 import { axiosInstance } from '../../api';

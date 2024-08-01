@@ -16,7 +16,6 @@ import KakaoSignupAuth from './pages/Signup/KakaoSignupAuth';
 import NaverSignupAuth from './pages/Signup/NaverSignupAuth';
 import GoogleSignupAuth from './pages/Signup/GoogleSignupAuth';
 import EditMe from './pages/EditMe';
-import EditPet from './pages/EditPet';
 import Places from './pages/Places';
 
 
@@ -44,7 +43,6 @@ function App() {
         <Route path='/auth/google/signup' element={<GoogleSignupAuth/>}/>
 
         <Route path="/edit-me" element={<EditMe />} />
-        <Route path="/edit-pet" element={<EditPet />} />
         <Route path="/places" element={<Places />} />
       </Routes>
     </>
