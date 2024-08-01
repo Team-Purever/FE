@@ -12,7 +12,7 @@ const UploadButton = styled.label`
     aspect-ratio: 1 / 0.7; /* 가로 세로 비율 1:0.7 */
     border-radius: 15px;
     background-color: #E5E5EA;
-    margin: 43px 0px 53px 0px;
+    margin-top: 43px;
     cursor: pointer;
     position: relative;
     overflow: hidden;

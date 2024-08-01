@@ -4,6 +4,8 @@ import pencil from "../../assets/images/DiaryInput/pencil.svg"
 
 const Container = styled.div`
   position: relative;
+  min-width: 600px;
+  margin-top: 53px;
 `
 const InputField = styled.textarea`
     width: 100%;

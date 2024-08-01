@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Navbar } from '../components/Navbar/Navbar'; // 경로 수정
 import dropdownIcon from '../assets/images/Mypage/dropdown.svg'; // 경로 수정
 import { useNavigate } from 'react-router-dom'; 
 import { axiosInstance } from '../api';
-import { getUserInformation, updateUserInformation, deleteUserAccount } from '../api';
 
 const PageContainer = styled.div`
     display: flex;
@@ -100,7 +99,7 @@ const SelectContainer = styled.div`
     }
 `;
 
-const Select = styled.select`
+const Select = styled.div`
     width: 100%;
     height: 100%;
     border: none;
@@ -115,7 +114,6 @@ const Select = styled.select`
 const OptionList = styled.div`
     display: flex;
     width: 316px;
-    height: 120px;
     padding: 6px;
     flex-direction: column;
     align-items: flex-start;
@@ -206,6 +204,7 @@ const SectionTitle = styled.h2`
 const EditMe = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('선택');
+    const [petData, setPetData] = useState([]);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
@@ -216,8 +215,9 @@ const EditMe = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
+    const handleOptionClick = (petId) => {
+        setSelectedOption(petId);
+        console.log(selectedOption);
         setIsDropdownOpen(false);
         navigate('/edit-pet'); 
     };
@@ -242,6 +242,23 @@ const EditMe = () => {
         }
     };
 
+    const fetchPetList = async () => {
+        try{
+            const accessToken = localStorage.getItem('access_token');
+
+            const response = await axiosInstance.get('/pets', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+
+            setPetData(response.data.data.Pets);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // 회원 탈퇴
     const deleteUserInformation = async () => {
         try {
             const accessToken = localStorage.getItem('access_token');
@@ -257,11 +274,16 @@ const EditMe = () => {
         }
     }
 
+    //로그아웃
     const logout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         navigate('/')
     }
+
+    useEffect(() => {
+        fetchPetList();
+    }, []);
 
     return (
         <>
@@ -290,8 +312,9 @@ const EditMe = () => {
                         </Select>
                         {isDropdownOpen && (
                             <OptionList>
-                                <Option onClick={() => handleOptionClick('옵션 1')}>옵션 1</Option>
-                                <Option onClick={() => handleOptionClick('옵션 2')}>옵션 2</Option>
+                                {petData && petData.map(pet => (
+                                    <Option key={pet.petId} onClick={() => handleOptionClick(pet.petId)}>{pet.name}</Option>
+                                ))}
                             </OptionList>
                         )}
                     </SelectContainer>

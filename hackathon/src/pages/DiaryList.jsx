@@ -52,12 +52,10 @@ const DiaryList = () => {
 
             // 처음 기록한 날 부터 며칠 지났는지 계산
             const firstDiary = data.diaries[data.diaries.length - 1];
-            const firstDate = new Date(firstDiary.created_at.split('T')[0]);
+            const firstDate = new Date(firstDiary.created_at);
             const today = new Date();
-
             const timeSinceFirst = today - firstDate;
             const daySinceFirst = Math.ceil(timeSinceFirst / (1000 * 60 * 60 * 24));
-
             setDaysPassed(daySinceFirst);
 
             // 가장최근에 기록한 시점부터 몇 시간 지났는지 계산
@@ -65,9 +63,11 @@ const DiaryList = () => {
             const timeSinceRecent = today - new Date(recentDiary.created_at);
             const hoursSinceRecent = timeSinceRecent / (1000 * 60 * 60);
             setCanAddDiary(hoursSinceRecent >= 24);
+
         } else {
-            setCanAddDiary(true);
+            setDaysPassed(1);
             setNewDiaryId(1);
+            setCanAddDiary(true);
         }
     }, [data]);
 

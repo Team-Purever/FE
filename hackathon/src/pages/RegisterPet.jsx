@@ -21,7 +21,7 @@ const MainText = styled.div`
     text-align: center;
     font-size: 48px;
     font-weight: 700;
-    margin-top: 8vh;
+    margin-top: 6vh;
 `;
 const InputBox = styled.div`
     display: flex;
@@ -32,7 +32,7 @@ const InputBox = styled.div`
     border-radius: 100px;
     border: 1px solid #212121;
 `;
-const InputText = styled.div`
+const InputText = styled.label`
     color: #212121;
     text-align: center;
     font-size: 20px;
@@ -54,7 +54,7 @@ const InfoText = styled.div`
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.2px;
-    margin: 11px 0px 22px 0px;
+    margin: 3px 0px 10px 0px;
 `;
 const BtnContainer = styled.div`
     display: flex;
@@ -86,50 +86,98 @@ const WhiteBtn = styled.div`
     line-height: 110%;
     cursor: pointer;
 `;
+const ErrorText = styled.div`
+    color: red;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    margin-top: 5px;
+`
+
+const isValidName = (name) => {
+    const regex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|]+$/;
+    return regex.test(name);
+};
 
 const RegisterPet = () => {
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
     const [name, setName] = useState('');
-    const [age, setAge] = useState(0);
+    const [age, setAge] = useState('');
+    const [imageError, setImageError] = useState(false);
+    const [nameError, setNameError] = useState(false);
+    const [ageError, setAgeError] = useState(false);
 
-    const submit = async() => {
-        const petData = {
-            name: name,
-            age: parseInt(age),
-            url: image
-        };
-
-        try{
-            const accessToken = localStorage.getItem('access_token');
-            const response = await axiosInstance.post('/pets', petData, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            const petId = response.data.data.petId;
-            navigate(`/diary/${petId}`); // 반려동물 정보를 등록하면 해당 반려동물 추억일기장으로 이동
-
-        } catch (error) {
-            console.error(error);
-        }
+    const handleNameChange = (e) => {
+        const inputValue = e.target.value;
+        if(isValidName(inputValue) || inputValue === '')
+            setName(inputValue);
     }
+
+    const submit = async () => {
+        let valid = true;
+        if(!image) {
+            setImageError(true);
+            valid = false;
+        } else {
+            setImageError(false);
+        }
+
+        if (!name) {
+            setNameError(true);
+            valid = false;
+        } else {
+            setNameError(false);
+        }
+
+        if (!age) {
+            setAgeError(true);
+            valid = false;
+        } else {
+            setAgeError(false);
+        }
+
+        if (valid) {
+            const petData = {
+                name: name,
+                age: parseInt(age),
+                url: image
+            };
+
+            try {
+                const accessToken = localStorage.getItem('access_token');
+                const response = await axiosInstance.post('/pets', petData, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+                const petId = response.data.data.petId;
+                navigate(`/diary/${petId}`); // 반려동물 정보를 등록하면 해당 반려동물 추억일기장으로 이동
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
     return (
         <>
             <Navbar />
             <MainContainer>
                 <MainText>추억을 함께 기록할 친구가 궁금해요</MainText>
                 <PetImageUpload image={image} setImage={setImage} />
+                {imageError && <ErrorText>사진을 등록해주세요</ErrorText>}
                 <SubContainer>
                     <InputBox>
-                        <InputText>이름</InputText>
-                        <Input type='text' maxLength='10' value={name} onChange={(e) => setName(e.target.value)}/>
+                        <InputText htmlFor='name-input'>이름</InputText>
+                        <Input id='name-input' type='text' maxLength='10' value={name} onChange={handleNameChange}/>
                     </InputBox>
+                    {nameError && <ErrorText>이름을 알려주세요</ErrorText>}
                     <InfoText>* 1자 이상 10자 이내의 한글, 영문, 숫자 입력 가능합니다</InfoText>
                     <InputBox>
-                        <InputText>나이</InputText>
-                        <Input type='number' value={age} onChange={(e) => setAge(e.target.value)} />
+                        <InputText htmlFor='age-input'>나이</InputText>
+                        <Input id='age-input' type='number' value={age} onChange={(e) => setAge(e.target.value)} />
                     </InputBox>
+                    {ageError && <ErrorText>나이를 알려주세요</ErrorText>}
                 </SubContainer>
                 <BtnContainer>
                     <MintBtn onClick={submit}>기록하기</MintBtn>

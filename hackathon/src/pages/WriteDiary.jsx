@@ -63,7 +63,13 @@ const WhiteButton = styled.div`
     font-weight: 700;
     line-height: 110%;
 `;
-
+const ErrorText = styled.div`
+    color: red;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    margin-top: 5px;
+`
 
 const WriteDiary = () => {
     const navigate = useNavigate();
@@ -74,27 +80,36 @@ const WriteDiary = () => {
 
     const [image, setImage] = useState(null);
     const [diaryText, setDiaryText] = useState("");
+    const [imageError, setImageError] = useState(false);
 
     // 새 질문 받아오기
     const newQuestions = (newDiaryId <= 15) ? questions[newDiaryId-1] : "오늘의 추억을 기록해주세요."; 
 
     const submit = async() => {
-        const diaryData = {
-            title: newQuestions,
-            url: image, // 임시 사진 정보
-            content: diaryText
+        let valid = true;
+        if(!image) {
+            setImageError(true);
+            valid = false;
         }
-        try{
-            const accessToken = localStorage.getItem('access_token');
-            const response = await axiosInstance.post(`/diaries/pets/${petId}/`, diaryData, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            navigate(`/diary/${petId}`); // 해당 반려동물 추억일기장으로 이동
 
-        } catch (error) {
-            console.error(error);
+        if(valid) {
+            const diaryData = {
+                title: newQuestions,
+                url: image, // 임시 사진 정보
+                content: diaryText
+            }
+            try{
+                const accessToken = localStorage.getItem('access_token');
+                const response = await axiosInstance.post(`/diaries/pets/${petId}/`, diaryData, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                navigate(`/diary/${petId}`); // 해당 반려동물 추억일기장으로 이동
+
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
     return (
@@ -105,6 +120,7 @@ const WriteDiary = () => {
                 <QuestionText>{newQuestions}</QuestionText>
                 <ContentContainer>
                     <DiaryImageUpload image={image} setImage={setImage} />
+                    {imageError && <ErrorText>사진을 등록해주세요</ErrorText>}
                     <DiaryInput value={diaryText} onChange={(e) => setDiaryText(e.target.value)}/>
                 </ContentContainer>
                 <ButtonContainer>

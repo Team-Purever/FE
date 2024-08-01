@@ -23,7 +23,9 @@ const reissueToken = async () => {
       });
       console.log('토큰 재발급 완료');
       const newAccessToken = response.data.data.accessToken;
+      const newRefreshToken = response.data.data.refreshToken
       localStorage.setItem('access_token', newAccessToken);
+      localStorage.setItem('refresh_token', newRefreshToken);
       return newAccessToken;
 
     } catch (error) {
