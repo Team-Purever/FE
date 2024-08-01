@@ -22,13 +22,14 @@ const ModalContainer = styled.div`
     display: flex;
     padding: 79px 78px;
     flex-direction: column;
-    justify-content: center;
     gap: 52px;
     flex-shrink: 0;
     background-color: white;
     border-radius: 52px;
     box-shadow: 0px 30px 60px 0px rgba(122, 127, 131, 0.20);
     position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
 `;
 const CloseButton = styled.img`
     width: 25px;
