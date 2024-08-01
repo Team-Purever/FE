@@ -93,6 +93,10 @@ const ErrorText = styled.div`
     letter-spacing: 0.2px;
     margin-top: 5px;
 `
+const ErrorTextInput = styled(ErrorText)`
+    margin-left: 49px;
+`
+
 
 const isValidName = (name) => {
     const regex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
@@ -171,13 +175,13 @@ const RegisterPet = () => {
                         <InputText htmlFor='name-input'>이름</InputText>
                         <Input id='name-input' type='text' maxLength='10' value={name} onChange={handleNameChange}/>
                     </InputBox>
-                    {nameError && <ErrorText>이름을 알려주세요</ErrorText>}
+                    {nameError && <ErrorTextInput>이름을 알려주세요</ErrorTextInput>}
                     <InfoText>* 1자 이상 10자 이내의 한글, 영문, 숫자 입력 가능합니다</InfoText>
                     <InputBox>
                         <InputText htmlFor='age-input'>나이</InputText>
                         <Input id='age-input' type='number' value={age} onChange={(e) => setAge(e.target.value)} />
                     </InputBox>
-                    {ageError && <ErrorText>나이를 알려주세요</ErrorText>}
+                    {ageError && <ErrorTextInput>나이를 알려주세요</ErrorTextInput>}
                 </SubContainer>
                 <BtnContainer>
                     <MintBtn onClick={submit}>기록하기</MintBtn>

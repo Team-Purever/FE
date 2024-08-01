@@ -18,8 +18,7 @@ const PageContainer = styled.div`
 const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 400px;
+    width: 421px;
     margin-top: 100px;
 `;
 
@@ -27,9 +26,8 @@ const Title = styled.h1`
     color: var(--kakao-logo, #000);
     text-align: center;
     font-size: 32px;
-    font-style: normal;
     font-weight: 700;
-    line-height: 110%; /* 35.2px */
+    line-height: 110%;
     margin-bottom: 20px;
 `;
 
@@ -38,11 +36,9 @@ const InputContainer = styled.div`
     height: 66px;
     padding: 20px 49px;
     align-items: center;
-    gap: 10px;
     align-self: stretch;
     border-radius: 100px;
     border: 1px solid var(--grey4, #8D95A0);
-    margin-bottom: 30px; /* 간격을 더 넓게 설정 */
     position: relative;
 
     &:focus-within {
@@ -51,35 +47,36 @@ const InputContainer = styled.div`
 `;
 
 const InputLabel = styled.span`
-    flex: 0 0 auto;
-    width: 100px;
-    font-size: 16px;
     color: #212121;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    margin-right: 18px;
 `;
 
 const InputField = styled.input`
-    flex: 1;
     border: none;
     outline: none;
     font-size: 16px;
 `;
 
 const InfoText = styled.div`
-    color: var(--grey1, #212121);
+    color: #212121;
     font-size: 16px;
-    font-style: normal;
     font-weight: 500;
-    line-height: normal;
     letter-spacing: 0.2px;
-    text-transform: capitalize;
-    margin-bottom: 20px;
+    margin: 5px 0px 22px 0px
 `;
 
+const Blank = styled.div`
+    height: 53px;
+`
 const SelectContainer = styled.div`
     width: 100%;
     height: 66px;
     position: relative;
-    margin-bottom: 30px; /* 간격을 더 넓게 설정 */
+    margin-bottom: 78px; /* 간격을 더 넓게 설정 */
     border-radius: 100px;
     border: 1px solid var(--grey4, #8D95A0);
     display: flex;
@@ -154,16 +151,19 @@ const ButtonContainer = styled.div`
     width: 100%;
 `;
 
-const Button = styled.button`
-    width: 48%;
-    height: 50px;
-    background-color: #69d1de;
-    border: none;
-    border-radius: 25px;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 600;
+const Button = styled.div`
+    display: flex;
+    padding: 24px 61px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    background:  #69D1DE;
     cursor: pointer;
+
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 110%;
 
     &:hover {
         background-color: #5cc3d3;
@@ -172,8 +172,8 @@ const Button = styled.button`
 
 const LogoutButton = styled(Button)`
     background-color: #ffffff;
-    color: #69d1de;
-    border: 1px solid #69d1de;
+    color: black;
+    border: 2px solid #69d1de;
 
     &:hover {
         background-color: #f0f8fb;
@@ -188,7 +188,7 @@ const DeleteAccountText = styled.div`
     font-weight: 600;
     line-height: 16px; /* 100% */
     letter-spacing: 0.4px;
-    margin-bottom: 30px;
+    margin: 11px 0px 42.5px 0px;
     cursor: pointer;
 `;
 
@@ -202,6 +202,14 @@ const SectionTitle = styled.h2`
     margin-bottom: 20px;
 `;
 
+const ErrorText = styled.div`
+    color: red;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    margin: 5px 0px 0px 49px;
+`
+
 const EditMe = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -209,6 +217,9 @@ const EditMe = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
+    const [nameError, setNameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [numberError, setNumberError] = useState(false);
     const [petId, setPetId] = useState(0);
 
     const navigate = useNavigate();
@@ -236,21 +247,45 @@ const EditMe = () => {
 
     // 사용자 정보 수정
     const updateUserInformation = async () => {
-        const userData = {
-            name: name,
-            email: email,
-            number: number
-        };
-        try {
-            const accessToken = localStorage.getItem('access_token');
-            const response = await axiosInstance.patch('/auth/user/info', userData, {
-                headrs: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-        });
+        let valid = true;
+        if (!name) {
+            setNameError(true);
+            valid = false;
+        } else {
+            setNameError(false);
+        }
 
-        } catch (error) {
-            console.error(error);
+        if(!email) {
+            setEmailError(true);
+            valid = false;
+        } else {
+            setEmailError(false);
+        }
+
+        if(!number) {
+            setNumberError(true);
+            valid = false;
+        } else {
+            setNumberError(false);
+        }
+
+        if(valid) {
+            const userData = {
+                name: name,
+                email: email,
+                number: number
+            };
+            try {
+                const accessToken = localStorage.getItem('access_token');
+                const response = await axiosInstance.patch('/auth/user/info', userData, {
+                    headrs: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+            });
+
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
 
@@ -305,17 +340,21 @@ const EditMe = () => {
                     <Title>회원정보 수정</Title>
                     <InputContainer>
                         <InputLabel>이름</InputLabel>
-                        <InputField type="text" placeholder="이름" value={name} onChange={(e) => setName(e.target.value)}/>
+                        <InputField type="text" value={name} onChange={(e) => setName(e.target.value)}/>
                     </InputContainer>
+                    {nameError && <ErrorText>이름을 입력해주세요</ErrorText>}
                     <InfoText>* 1자 이상 10자 이내의 한글, 영문, 숫자 입력 가능합니다</InfoText>
                     <InputContainer>
                         <InputLabel>이메일</InputLabel>
-                        <InputField type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <InputField type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </InputContainer>
+                    {emailError && <ErrorText>이메일을 입력해주세요</ErrorText>}
+                    <Blank/>
                     <InputContainer>
                         <InputLabel>휴대폰 번호</InputLabel>
-                        <InputField type="text" placeholder="휴대폰 번호" value={number} onChange={(e) => setNumber(e.target.value)} />
+                        <InputField type="text" value={number} onChange={(e) => setNumber(e.target.value)} />
                     </InputContainer>
+                    {numberError && <ErrorText>번호를 입력해주세요</ErrorText>}
                     <DeleteAccountText onClick={deleteUserInformation}>회원 탈퇴하기</DeleteAccountText>
                     <SectionTitle>반려동물 관리</SectionTitle>
                     <SelectContainer onClick={handleDropdownClick}>

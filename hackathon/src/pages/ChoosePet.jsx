@@ -10,6 +10,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 40px;
 `
 const MainText = styled.div`
     text-align: center;

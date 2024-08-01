@@ -273,7 +273,6 @@ export const EditPet = ({petId, onClose, onSave}) => {
                     <InputLabel>이름</InputLabel>
                     <InputField
                         type="text"
-                        placeholder="이름"
                         maxLength='10'
                         value={name}
                         onChange={handleNameChange}
@@ -285,7 +284,6 @@ export const EditPet = ({petId, onClose, onSave}) => {
                     <InputLabel>나이</InputLabel>
                     <InputField
                         type="number"
-                        placeholder="나이"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                     />
