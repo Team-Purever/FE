@@ -100,9 +100,8 @@ export const OtherPetModal = ({onClose}) => {
                 const diaries = diaryResponse.data.data.diaries;
                 if (diaries && diaries.length > 0){
                     const firstDiary = diaries[diaries.length - 1];
-                    const firstDate = new Date(firstDiary.created_at.split('T')[0]);
+                    const firstDate = new Date(firstDiary.created_at);
                     const today = new Date();
-
                     const timeSinceFirst = today-firstDate;
                     const daySinceFirst = Math.ceil(timeSinceFirst / (1000 * 60 * 60 * 24));
                     // pet에 date라는 프로퍼티 추가. 며칠 지났는지에 대한 정보.
