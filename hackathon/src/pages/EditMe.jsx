@@ -4,7 +4,12 @@ import { Navbar } from '../components/Navbar/Navbar'; // 경로 수정
 import dropdownIcon from '../assets/images/Mypage/dropdown.svg'; // 경로 수정
 import { useNavigate } from 'react-router-dom'; 
 import { axiosInstance } from '../api';
+<<<<<<< Updated upstream
 import { EditPet } from '../components/Edit/EditPet';
+=======
+import { getUserInformation, updateUserInformation, deleteUserAccount } from '../api';
+import { deleteUserAccount } from '../api';  // 회원 탈퇴 API 함수 import
+>>>>>>> Stashed changes
 
 const PageContainer = styled.div`
     display: flex;
@@ -290,6 +295,7 @@ const EditMe = () => {
         }
     };
 
+<<<<<<< Updated upstream
     const fetchPetList = async () => {
         try{
             const accessToken = localStorage.getItem('access_token');
@@ -326,6 +332,8 @@ const EditMe = () => {
     }
 
     //로그아웃
+=======
+>>>>>>> Stashed changes
     const logout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
@@ -358,8 +366,12 @@ const EditMe = () => {
                         <InputLabel>휴대폰 번호</InputLabel>
                         <InputField type="text" value={number} onChange={(e) => setNumber(e.target.value)} />
                     </InputContainer>
+<<<<<<< Updated upstream
                     {numberError && <ErrorText>번호를 입력해주세요</ErrorText>}
                     <DeleteAccountText onClick={deleteUserInformation}>회원 탈퇴하기</DeleteAccountText>
+=======
+                    <DeleteAccountText>회원 탈퇴하기</DeleteAccountText>
+>>>>>>> Stashed changes
                     <SectionTitle>반려동물 관리</SectionTitle>
                     <SelectContainer onClick={handleDropdownClick}>
                         <Select readOnly>
