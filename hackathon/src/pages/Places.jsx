@@ -4,10 +4,13 @@ import { Navbar } from '../components/Navbar/Navbar';
 import searchIcon from '../assets/images/Places/search.png';
 import funeralIcon from '../assets/images/Places/funeral.png';
 import hospeaceIcon from '../assets/images/Places/hospeace.png';
+import clickSearchIcon from '../assets/images/Places/clicksearch.png';
+import clickFuneralIcon from '../assets/images/Places/clickfuneral.png';
+import clickHospeaceIcon from '../assets/images/Places/clickhospeace.png';
 import mapIcon from '../assets/images/Places/map.svg';
 import callIcon from '../assets/images/Places/call.svg';
 import linkIcon from '../assets/images/Places/link.svg'; 
-import dropdownIcon from '../assets/images/Places/dropdown1.svg';
+import dropdownIcon from '../assets/images/Mypage/dropdown.svg';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
@@ -247,6 +250,7 @@ const Places = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCity, setSelectedCity] = useState(null);
     const [page, setPage] = useState(1);
+    const [activeFilter, setActiveFilter] = useState('search');
 
     const toggleDropdown = () => setIsOpen(!isOpen);
     const handleSelectCity = (city) => {
@@ -270,88 +274,87 @@ const Places = () => {
 
     const handleFilterChange = (filter) => {
         setSelectedFilter(filter);
+        setActiveFilter(filter);
         setPage(1); // 페이지를 1로 초기화
-    };
+        const category = filter === 'search' ? null : filter;
+        fetchPlaces(selectedCity, category, 1); // 필터에 맞는 데이터를 호출
+      };
+      
 
     const handlePageChange = (event, value) => {
         setPage(value);
     };
 
     const cities = [
-        '시/도 선택',
-        '서울특별시',
-        '인천광역시',
-        '대전광역시',
-        '광주광역시',
-        '대구광역시',
-        '울산광역시',
-        '부산광역시',
-        '경기도',
-        '강원도',
-        '충청북도',
-        '충청남도',
-        '전라북도',
-        '전라남도',
-        '경상북도',
-        '경상남도',
-        '제주특별자치도',
-        ];
-        return (
-          <Container>
-              <Navbar />
-              <PageContainer>
-                  <Header>반려동물과의 따뜻한 배웅을 위한 장소</Header>
-                  <SubHeader>반려동물의 마지막 여정을 준비할 수 있는 웰다잉 관련 장소 정보를 찾아볼 수 있어요</SubHeader>
-                  <FilterContainer>
-                      <FilterButton onClick={() => handleFilterChange('search')}>
-                          <FilterIcon src={searchIcon} alt="검색" />
-                      </FilterButton>
-                      <FilterButton onClick={() => handleFilterChange('funeral')}>
-                          <FilterIcon src={funeralIcon} alt="장례식장" />
-                      </FilterButton>
-                      <FilterButton onClick={() => handleFilterChange('hospeace')}>
-                          <FilterIcon src={hospeaceIcon} alt="호스피스" />
-                      </FilterButton>
-                  </FilterContainer>
-                  <DropdownContainer>
-                      <DropdownHeader onClick={toggleDropdown}>
-                          {selectedCity}
-                          <img src={dropdownIcon} alt="드롭다운" />
-                      </DropdownHeader>
-                      <DropdownList isOpen={isOpen}>
-                          {cities.map((city) => (
-                              <DropdownListItem key={city} onClick={() => handleSelectCity(city)}>
-                                  {city}
-                              </DropdownListItem>
-                          ))}
-                      </DropdownList>
-                  </DropdownContainer>
-                  <PlacesContainer>
-                      {placesData.map((place) => (
-                          <PlaceCard key={place.id}>
-                              <PlaceImage imgUrl={place.imgUrl} />
-                              <PlaceName>{place.name}</PlaceName>
-                              <PlaceInfo>
-                                  <PlaceIcon src={mapIcon} alt="주소 아이콘" />
-                                  <PlaceText>{place.address}</PlaceText>
-                              </PlaceInfo>
-                              <PlaceInfo>
-                                  <PlaceIcon src={callIcon} alt="전화 아이콘" />
-                                  <PlaceText>{place.number}</PlaceText>
-                              </PlaceInfo>
-                              <PlaceInfo>
-                                  <PlaceIcon src={linkIcon} alt="웹사이트 아이콘" />
-                                  <PlaceText><a href={place.url}>{place.url}</a></PlaceText>
-                              </PlaceInfo>
-                          </PlaceCard>
-                      ))}
-                  </PlacesContainer>
-                  <Stack spacing={2}>
-                      <StyledPagination count={10} page={page} onChange={handlePageChange} />
-                  </Stack>
-              </PageContainer>
-          </Container>
-      );
-    };
+      { name: '서울', query: 'seoul' },
+      { name: '경기', query: 'gyeonggi' },
+      { name: '부산', query: 'busan' },
+      { name: '대구', query: 'daegu' },
+      { name: '인천', query: 'incheon' },
+      { name: '세종', query: 'sejong' },
+      { name: '강원', query: 'gangwon' },
+      { name: '충청', query: 'chungcheong' },
+      { name: '전라', query: 'jeolla' },
+      { name: '경상', query: 'gyeongsang' },
+  ];
+  
 
-    export default Places;
+  return (
+    <Container>
+        <Navbar />
+        <PageContainer>
+            <Header>반려동물과의 따뜻한 배웅을 위한 장소</Header>
+            <SubHeader>반려동물의 마지막 여정을 준비할 수 있는 웰다잉 관련 장소 정보를 찾아볼 수 있어요</SubHeader>
+            <FilterContainer>
+                <FilterButton onClick={() => handleFilterChange('search')}>
+                    <FilterIcon src={activeFilter === 'search' ? clickSearchIcon : searchIcon} alt="검색" />
+                </FilterButton>
+                <FilterButton onClick={() => handleFilterChange('funeral')}>
+                    <FilterIcon src={activeFilter === 'funeral' ? clickFuneralIcon : funeralIcon} alt="장례식장" />
+                </FilterButton>
+                <FilterButton onClick={() => handleFilterChange('hospeace')}>
+                    <FilterIcon src={activeFilter === 'hospeace' ? clickHospeaceIcon : hospeaceIcon} alt="호스피스" />
+                </FilterButton>
+            </FilterContainer>
+            <DropdownContainer>
+                <DropdownHeader onClick={toggleDropdown}>
+                    {selectedCity ? (cities.find(city => city.query === selectedCity)?.name || '시/도 선택') : '시/도 선택'}
+                    <img src={dropdownIcon} alt="드롭다운" />
+                </DropdownHeader>
+                <DropdownList isOpen={isOpen}>
+                    {cities.map((city) => (
+                        <DropdownListItem key={city.query} onClick={() => handleSelectCity(city.query)}>
+                            {city.name}
+                        </DropdownListItem>
+                    ))}
+                </DropdownList>
+            </DropdownContainer>
+                 <PlacesContainer>
+                  {placesData.map((place) => (
+                      <PlaceCard key={place.id}>
+                          <PlaceImage imgUrl={place.imgUrl} />
+                          <PlaceName>{place.name}</PlaceName>
+                          <PlaceInfo>
+                              <PlaceIcon src={mapIcon} alt="주소 아이콘" />
+                              <PlaceText>{place.address}</PlaceText>
+                          </PlaceInfo>
+                          <PlaceInfo>
+                              <PlaceIcon src={callIcon} alt="전화 아이콘" />
+                              <PlaceText>{place.number}</PlaceText>
+                          </PlaceInfo>
+                          <PlaceInfo>
+                              <PlaceIcon src={linkIcon} alt="웹사이트 아이콘" />
+                              <PlaceText><a href={place.url}>{place.url}</a></PlaceText>
+                          </PlaceInfo>
+                      </PlaceCard>
+                  ))}
+              </PlacesContainer>
+              <Stack spacing={2}>
+                  <StyledPagination count={10} page={page} onChange={handlePageChange} />
+              </Stack>
+          </PageContainer>
+      </Container>
+  );
+};
+
+export default Places;

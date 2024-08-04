@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Navbar } from '../components/Navbar/Navbar'; // 경로 수정
-import dropdownIcon from '../assets/images/Mypage/dropdown.svg'; // 경로 수정
+import { Navbar } from '../components/Navbar/Navbar'; 
+import dropdownIcon from '../assets/images/Mypage/dropdown.svg'; 
 import { useNavigate } from 'react-router-dom'; 
 import { axiosInstance } from '../api';
-<<<<<<< Updated upstream
-import { EditPet } from '../components/Edit/EditPet';
-=======
 import { getUserInformation, updateUserInformation, deleteUserAccount } from '../api';
-import { deleteUserAccount } from '../api';  // 회원 탈퇴 API 함수 import
->>>>>>> Stashed changes
+import { EditPet } from '../components/Edit/EditPet'; // 경로 수정
 
 const PageContainer = styled.div`
     display: flex;
@@ -250,8 +246,24 @@ const EditMe = () => {
         setIsDropdownOpen(false);
     };
 
+
+// 펫 목록 조회 함수
+const fetchPetList = async () => {
+    try {
+        const response = await getUserInformation();
+        setPetData(response.data.pets);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+// useEffect에서 fetchPetList 호출
+useEffect(() => {
+    fetchPetList();
+}, []);
+
     // 사용자 정보 수정
-    const updateUserInformation = async () => {
+    const handleUpdateUserInformation = async () => {
         let valid = true;
         if (!name) {
             setNameError(true);
@@ -295,45 +307,9 @@ const EditMe = () => {
         }
     };
 
-<<<<<<< Updated upstream
-    const fetchPetList = async () => {
-        try{
-            const accessToken = localStorage.getItem('access_token');
 
-            const response = await axiosInstance.get('/pets', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
 
-            setPetData(response.data.data.Pets);
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
-    // 회원 탈퇴
-    const deleteUserInformation = async () => {
-        if(window.confirm('정말로 탈퇴하시겠습니까?')){
-            try {
-                const accessToken = localStorage.getItem('access_token');
-                const response = await axiosInstance.delete('/auth/user/info', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
-                alert('탈퇴되었습니다.');
-                logout();
-                navigate('/');
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }
-
-    //로그아웃
-=======
->>>>>>> Stashed changes
     const logout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
@@ -366,12 +342,7 @@ const EditMe = () => {
                         <InputLabel>휴대폰 번호</InputLabel>
                         <InputField type="text" value={number} onChange={(e) => setNumber(e.target.value)} />
                     </InputContainer>
-<<<<<<< Updated upstream
-                    {numberError && <ErrorText>번호를 입력해주세요</ErrorText>}
-                    <DeleteAccountText onClick={deleteUserInformation}>회원 탈퇴하기</DeleteAccountText>
-=======
                     <DeleteAccountText>회원 탈퇴하기</DeleteAccountText>
->>>>>>> Stashed changes
                     <SectionTitle>반려동물 관리</SectionTitle>
                     <SelectContainer onClick={handleDropdownClick}>
                         <Select readOnly>
@@ -394,6 +365,6 @@ const EditMe = () => {
             </PageContainer>
         </>
     );
-};
+  };
 
 export default EditMe;
