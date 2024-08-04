@@ -46,11 +46,20 @@ export const Navbar = () => {
             navigate('/login'); // 로그인 안되어있으면 로그인 페이지로 이동
     };
 
+    const handlePlaceClick = () => {
+        const state = isLoggedIn();
+
+        if(state)
+            navigate('/places');
+        else
+            navigate('/login');
+    };
+
     return (
       <NavbarContainer>
       <Logo src={logo} onClick={() => { navigate('/'); }} />
       <MenuText onClick={() => { navigate('/memory'); }}>추억하기</MenuText>
-      <MenuText onClick={() => { navigate('/places'); }}>장소 찾기</MenuText>
+      <MenuText onClick={handlePlaceClick}>장소 찾기</MenuText>
       <MyProfileBtn onClick={ handleProfileClick } />
     </NavbarContainer>
   );

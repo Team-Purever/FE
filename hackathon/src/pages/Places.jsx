@@ -13,14 +13,7 @@ import linkIcon from '../assets/images/Places/link.svg';
 import dropdownIcon from '../assets/images/Mypage/dropdown.svg';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import axios from 'axios';
-
-const axiosInstance = axios.create({
-  baseURL: "http://ec2-43-201-159-179.ap-northeast-2.compute.amazonaws.com",
-  headers: {
-    'Content-Type': 'application/json',
-  }
-});
+import { axiosInstance } from '../api';
 
 // 장소 정보 조회 함수
 const fetchPlacesData = async (city, category, page) => {
@@ -54,35 +47,29 @@ const PageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    margin-bottom: 100px;
 `;
 
-const Header = styled.h1`
-    color: var(--kakao-logo, #000);
+const Header = styled.div`
     text-align: center;
     font-size: 48px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
-    text-transform: capitalize;
-    margin-top: 20px;
+    margin: 20px 0px;
 `;
 
 const SubHeader = styled.p`
-    color: var(--grey-1, #212121);
+    color:#212121;
     text-align: center;
     font-size: 20px;
-    font-style: normal;
     font-weight: 400;
-    line-height: normal;
     letter-spacing: 0.2px;
-    text-transform: capitalize;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 `;
 
 const FilterContainer = styled.div`
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
     margin-bottom: 50px;
 `;
 
@@ -92,40 +79,17 @@ const FilterButton = styled.div`
     align-items: center;
     cursor: pointer;
 
-img {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
-}
+    img {
+    width: 125px;
+    height: 125px;
+    margin-bottom: 10px;
+    }
 `;
 
 const FilterIcon = styled.img`
     width: 50px;
     height: 50px;
     margin-bottom: 10px;
-`;
-
-const InputContainer = styled.div`
-    display: flex;
-    width: 265px;
-    height: 82px;
-    padding: 23px 30px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    flex-shrink: 0;
-    border-radius: 50px;
-    border: 1px solid var(--grey5, #B9C0C8);
-    background: #FFF;
-    margin-bottom: 40px;
-`;
-
-const LocationInput = styled.input`
-    width: 100%;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    font-family: Pretendard;
 `;
 
 const PlacesContainer = styled.div`
@@ -140,7 +104,7 @@ const PlaceCard = styled.div`
     width: 400px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 40px;
+    gap: 10px;
     padding: 20px;
 `;
 
@@ -148,23 +112,20 @@ const PlaceImage = styled.div`
     height: 350px;
     align-self: stretch;
     border-radius: 20px;
-    background: url(${props => props.imgUrl}) lightgray 0px -41.708px / 169.951% 113.022% no-repeat;
+    background: url(${props => props.$imgUrl}) lightgray 0px -41.708px / 169.951% 113.022% no-repeat;
     box-shadow: 0px 30px 60px 0px rgba(122, 127, 131, 0.20);
 `;
 
-const PlaceName = styled.h3`
+const PlaceName = styled.div`
     display: flex;
     width: 374px;
     height: 30px;
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    color: var(--kakao-logo, #000);
     font-size: 32px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
-    text-transform: capitalize;
+    margin: 20px 0px;
 `;
 
 const PlaceInfo = styled.div`
@@ -180,8 +141,10 @@ const PlaceIcon = styled.img`
 `;
 
 const PlaceText = styled.span`
-    font-size: 14px;
-    text-align: left;
+    color: #212121;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 140%;
 `;
 
 const StyledPagination = styled(Pagination)`
@@ -201,11 +164,12 @@ const StyledPagination = styled(Pagination)`
 
 const DropdownContainer = styled.div`
     display: flex;
-    width: 250px;
-    height: 80px;
+    width: 265px;
+    height: 82px;
     padding: 23px 30px;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     gap: 10px;
     flex-shrink: 0;
     border-radius: 50px;
@@ -221,10 +185,15 @@ const DropdownHeader = styled.div`
     align-items: center;
     width: 100%;
     cursor: pointer;
+
+    color: #8D95A0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 110%;
 `;
 
 const DropdownList = styled.ul`
-    display: ${props => (props.isOpen ? 'block' : 'none')};
+    display: ${props => (props.$isOpen ? 'block' : 'none')};
     position: absolute;
     top: 70px;
     left: 0;
@@ -250,9 +219,11 @@ const Places = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCity, setSelectedCity] = useState(null);
     const [page, setPage] = useState(1);
+    const [pageCount, setPageCount] = useState(1);
     const [activeFilter, setActiveFilter] = useState('search');
 
     const toggleDropdown = () => setIsOpen(!isOpen);
+
     const handleSelectCity = (city) => {
         setSelectedCity(city);
         setIsOpen(false);
@@ -261,8 +232,9 @@ const Places = () => {
 
     const fetchPlaces = async (city, category, page) => {
         try {
-            const data = await fetchPlacesData(city, category, page);
+            const data = await fetchPlacesData(city, category === 'search' ? null : category, page);
             setPlacesData(data.results.data);
+            setPageCount(Math.ceil(data.count / 6))
         } catch (error) {
             console.error(error);
         }
@@ -304,7 +276,7 @@ const Places = () => {
         <Navbar />
         <PageContainer>
             <Header>반려동물과의 따뜻한 배웅을 위한 장소</Header>
-            <SubHeader>반려동물의 마지막 여정을 준비할 수 있는 웰다잉 관련 장소 정보를 찾아볼 수 있어요</SubHeader>
+            <SubHeader>반려동물의 마지막 여정을 준비할 수 있는<br/>웰다잉 관련 장소 정보를 찾아볼 수 있어요</SubHeader>
             <FilterContainer>
                 <FilterButton onClick={() => handleFilterChange('search')}>
                     <FilterIcon src={activeFilter === 'search' ? clickSearchIcon : searchIcon} alt="검색" />
@@ -312,8 +284,8 @@ const Places = () => {
                 <FilterButton onClick={() => handleFilterChange('funeral')}>
                     <FilterIcon src={activeFilter === 'funeral' ? clickFuneralIcon : funeralIcon} alt="장례식장" />
                 </FilterButton>
-                <FilterButton onClick={() => handleFilterChange('hospeace')}>
-                    <FilterIcon src={activeFilter === 'hospeace' ? clickHospeaceIcon : hospeaceIcon} alt="호스피스" />
+                <FilterButton onClick={() => handleFilterChange('hospice')}>
+                    <FilterIcon src={activeFilter === 'hospice' ? clickHospeaceIcon : hospeaceIcon} alt="호스피스" />
                 </FilterButton>
             </FilterContainer>
             <DropdownContainer>
@@ -321,7 +293,7 @@ const Places = () => {
                     {selectedCity ? (cities.find(city => city.query === selectedCity)?.name || '시/도 선택') : '시/도 선택'}
                     <img src={dropdownIcon} alt="드롭다운" />
                 </DropdownHeader>
-                <DropdownList isOpen={isOpen}>
+                <DropdownList $isOpen={isOpen}>
                     {cities.map((city) => (
                         <DropdownListItem key={city.query} onClick={() => handleSelectCity(city.query)}>
                             {city.name}
@@ -332,7 +304,7 @@ const Places = () => {
                  <PlacesContainer>
                   {placesData.map((place) => (
                       <PlaceCard key={place.id}>
-                          <PlaceImage imgUrl={place.imgUrl} />
+                          <PlaceImage $imgUrl={`http://ec2-43-201-159-179.ap-northeast-2.compute.amazonaws.com${place.imgUrl}`} />
                           <PlaceName>{place.name}</PlaceName>
                           <PlaceInfo>
                               <PlaceIcon src={mapIcon} alt="주소 아이콘" />
@@ -350,7 +322,7 @@ const Places = () => {
                   ))}
               </PlacesContainer>
               <Stack spacing={2}>
-                  <StyledPagination count={10} page={page} onChange={handlePageChange} />
+                  <StyledPagination count={pageCount} page={page} onChange={handlePageChange} />
               </Stack>
           </PageContainer>
       </Container>

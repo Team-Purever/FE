@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import closeIcon from '../../assets/images/Mypage/close.svg';
 import { axiosInstance } from '../../api';
@@ -148,7 +148,7 @@ const isValidName = (name) => {
     return regex.test(name);
 };
 
-export const EditPet = ({petId, onClose, onSave}) => {
+export const EditPet = ({ petId, onClose, onSave }) => {
     const [image, setImage] = useState(null);
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
@@ -157,28 +157,32 @@ export const EditPet = ({petId, onClose, onSave}) => {
 
     const handleNameChange = (e) => {
         const inputValue = e.target.value;
-        if(isValidName(inputValue) || inputValue === '')
+        if (isValidName(inputValue) || inputValue === '')
             setName(inputValue);
     }
 
-    const fetchData = async () => {
-        try {
-            const accessToken = localStorage.getItem('access_token');
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const accessToken = localStorage.getItem('access_token');
 
-            const response = await axiosInstance.get(`/pets/${petId}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            setImage(response.data.data.pet.url);
-            setName(response.data.data.pet.name);
-            setAge(response.data.data.pet.age);
-        } catch (error) {
-            console.error(error);
+                const response = await axiosInstance.get(`/pets/${petId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+                setImage(response.data.data.pet.url);
+                setName(response.data.data.pet.name);
+                setAge(response.data.data.pet.age);
+            } catch (error) {
+                console.error(error);
+            }
         }
-    }
 
-    const handleImageUpload = async(event) => {
+        fetchData();
+    }, [petId]);
+
+    const handleImageUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) {
             return;
@@ -202,11 +206,11 @@ export const EditPet = ({petId, onClose, onSave}) => {
         }
     };
 
-    const deletePet = async() => {
-        if(window.confirm('정말로 삭제하시겠습니까?')){
+    const deletePet = async () => {
+        if (window.confirm('정말로 삭제하시겠습니까?')) {
             const accessToken = localStorage.getItem('access_token');
             try {
-                const response = await axiosInstance.delete(`/pets/${petId}`,{
+                await axiosInstance.delete(`/pets/${petId}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -220,7 +224,7 @@ export const EditPet = ({petId, onClose, onSave}) => {
         }
     }
 
-    const submit = async() => {
+    const submit = async () => {
         let valid = true;
         if (!name) {
             setNameError(true);
@@ -236,7 +240,7 @@ export const EditPet = ({petId, onClose, onSave}) => {
             setAgeError(false);
         }
 
-        if(valid) {
+        if (valid) {
             const petData = {
                 name: name,
                 age: parseInt(age),
@@ -245,7 +249,7 @@ export const EditPet = ({petId, onClose, onSave}) => {
 
             try {
                 const accessToken = localStorage.getItem('access_token');
-                const response = await axiosInstance.patch(`/pets/${petId}`, petData, {
+                await axiosInstance.patch(`/pets/${petId}`, petData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -258,15 +262,11 @@ export const EditPet = ({petId, onClose, onSave}) => {
         }
     }
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
     return (
         <Container>
             <WhiteBox>
                 <CloseButton src={closeIcon} onClick={onClose} />
-                <ImageContainer src={image}/>
+                <ImageContainer src={image} />
                 <EditImageText htmlFor='file-input'>사진 편집</EditImageText>
                 <FileInput
                     id='file-input'
