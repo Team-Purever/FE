@@ -64,6 +64,7 @@ const SubHeader = styled.p`
     font-weight: 400;
     letter-spacing: 0.2px;
     margin-bottom: 50px;
+    line-height: 150%;
 `;
 
 const FilterContainer = styled.div`

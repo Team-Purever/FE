@@ -23,18 +23,18 @@ const Overlay = styled.div`
     width: 100vw;
     height: 100vh;
     background: rgba(202, 202, 202, 0.30);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(17.5px);
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 0;
+    z-index: -1;
 `;
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    margin-top: 188px;
     height: 100vh;
     color: white;
     text-align: center;
@@ -59,7 +59,7 @@ const Subtitle = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: 110%; /* 44px */
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 `;
 
 const SignupButton = styled.button`
@@ -76,11 +76,7 @@ const SignupButton = styled.button`
     border: 1px solid #FFF;
     background: rgba(233, 233, 233, 0.70);
     cursor: pointer;
-    color: black;
-    font-size: 18px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 
     &:hover {
         background-color: rgba(233, 233, 233, 0.85);
@@ -95,10 +91,17 @@ const Icon = styled.img`
 const Text = styled.span`
     flex: 1;
     text-align: center; /* 텍스트를 중앙에 배치 */
+    color: black;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 120%; /* 28.8px */
+    font-family: SUIT Variable;
 `;
 
 const LoginLink = styled.div`
-    margin-top: 20px;
+    display: flex;
+    margin-top: 30px;
     color: var(--kakao-logo, #373737);
     text-align: center;
     font-size: 20px;
@@ -111,6 +114,11 @@ const LoginLink = styled.div`
         text-decoration: underline;
     }
 `;
+
+const LoginText = styled.div`
+    color: var(--kakao-logo, #212121);
+    font-weight: 700;
+`
 
 const NavbarWrapper = styled.div`
     position: relative;
@@ -169,7 +177,7 @@ const Signup = () => {
                     <Icon src={googleLogo} alt="Google Logo" />
                     <Text>구글로 가입하기</Text>
                 </SignupButton>
-                <LoginLink onClick={handleLogin}>이미 계정이 있으신가요? 로그인</LoginLink>
+                <LoginLink onClick={handleLogin}>이미 계정이 있으신가요? &nbsp;<LoginText>로그인</LoginText></LoginLink>
             </Container>
         </>
     );

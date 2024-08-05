@@ -20,13 +20,13 @@ const Container = styled.div`
 const MainText = styled.div`
     font-size: 64px;
     font-weight: 800;
-    line-height: 110%;
+    line-height: 130%;
     letter-spacing: -0.64px;
 `
 const SubText = styled.div`
     font-size: 20px;
     font-weight: 400;
-    line-height: 140%;
+    line-height: 150%;
     margin-top: 20px;
 `
 const MintBtn = styled.div`

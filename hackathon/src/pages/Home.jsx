@@ -65,6 +65,7 @@ const ServiceInfoText = styled.div`
     letter-spacing: 0.2px;
     text-transform: capitalize;
     margin: 22px 0px 45px 0px;
+    line-height: 30px; /* 150% */
     color: #212121
 `
 const MintBtn = styled.div`
