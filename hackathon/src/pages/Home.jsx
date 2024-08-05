@@ -20,14 +20,14 @@ const TitleTextContainer = styled.div`
     flex-direction: column;
     align-items: flex-end;
     gap: 35px;
-    margin-right: 14%;
+    margin-right: 12%;
     margin-top: 120px;
 `
 const TitleText = styled.div`
     text-align: ${({ $align }) => ($align === 'left' ? 'left' : 'right')};
     font-size: 64px;
     font-weight: 800;
-    line-height: 110%;
+    line-height: 130%;
     letter-spacing: -0.64px;
 `
 const SubText = styled.div`
