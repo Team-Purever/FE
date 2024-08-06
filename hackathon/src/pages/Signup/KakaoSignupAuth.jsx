@@ -19,7 +19,6 @@ const KakaoSignupAuth = () => {
               'Authorization': code
             }
           });
-          console.log(response);
   
           // 토큰을 localstorage에 저장
           localStorage.setItem('access_token', response.data.data.accessToken);

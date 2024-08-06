@@ -52,10 +52,8 @@ export const PetImageUpload = ({image, setImage}) => {
                     Authorization: `Bearer ${accessToken}`,
                 }
             })
-            console.log(response.data.data.url);
             setImage(`http://ec2-43-201-159-179.ap-northeast-2.compute.amazonaws.com${response.data.data.url}`);
-            console.log(image);
-
+            
         } catch (error) {
             console.error(error);
         }
