@@ -116,6 +116,8 @@ const ImgContainer = styled.div`
     justify-content: center;
 `
 const Img = styled.img`
+    width: 48%;
+    min-width: 500px;
     box-shadow: 0px 30px 60px 0px rgba(122, 127, 131, 0.20);
     border-radius: 25px;
 `
@@ -123,9 +125,10 @@ const ExpertContainer = styled.div` // 전체 컨테이너
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
     gap: 78px;
     flex-shrink: 0;
-    padding: 151px 0px;
+    padding: 9% 10%;
 `
 const MintText = styled.span`
     color: #69D1DE;
@@ -272,9 +275,9 @@ const Home = () => {
                     <Quote>
                         <DoctorText>정신과 전문의 이명수 원장</DoctorText>
                         <QuoteText>
-                            “펫로스 증후군을 극복하기 위해서는 <br/>
-                            추억을 떠올리며 충분한 <br/>
-                            애도를 하는 것이 중요합니다.” <br/>
+                            “펫로스 증후군을 극복하기 위해서는<br/>
+                            추억을 떠올리며 충분한<br/>
+                            애도를 하는 것이 중요합니다.”<br/>
                         </QuoteText>
                         <DetailText href="https://www.mk.co.kr/news/it/10559989" target="_blank">자세히 알아보기</DetailText>
                     </Quote>
