@@ -126,6 +126,7 @@ const ExpertContainer = styled.div` // 전체 컨테이너
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    min-width: 1100px;
     gap: 78px;
     flex-shrink: 0;
     padding: 9% 10%;
@@ -136,12 +137,21 @@ const MintText = styled.span`
 const QuoteContainers = styled.div`
     display: flex;
     align-items: center;
-    gap: 187px;
+    //gap: 187px;
+    width: 100%;
+    justify-content: space-between;
 `
 const Quote = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 358px;
+`
+const Quote2 = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 259px;
 `
 const DoctorText = styled.div`
     color: #6E6E73;
@@ -159,6 +169,7 @@ const QuoteText = styled.div`
     letter-spacing: 0.46px;
     margin: 22px 0px 37px 0px;
 `
+
 const DetailText = styled.a`
     text-decoration-line: none;
     color: #494B56;
@@ -275,27 +286,27 @@ const Home = () => {
                     <Quote>
                         <DoctorText>정신과 전문의 이명수 원장</DoctorText>
                         <QuoteText>
-                            “펫로스 증후군을 극복하기 위해서는<br/>
-                            추억을 떠올리며 충분한<br/>
-                            애도를 하는 것이 중요합니다.”<br/>
+                            “펫로스 증후군을 극복하기 위해서는
+                            추억을 떠올리며 충분한
+                            애도를 하는 것이 중요합니다.”
                         </QuoteText>
                         <DetailText href="https://www.mk.co.kr/news/it/10559989" target="_blank">자세히 알아보기</DetailText>
                     </Quote>
-                    <Quote>
+                    <Quote2>
                         <DoctorText>설채현 수의사</DoctorText>
                         <QuoteText>
-                            “후회없이 함께 행복하고, <br/>
-                            반려동물이 세상을 떠난 후 <br/>
-                            마음껏 슬퍼하세요.” <br/>
+                            “후회없이 함께 행복하고,
+                            반려동물이 세상을 떠난 후
+                            마음껏 슬퍼하세요.” 
                         </QuoteText>
                         <DetailText href="https://www.hankyung.com/article/2024022718057" target="_blank">자세히 알아보기</DetailText>
-                    </Quote>
+                    </Quote2>
                     <Quote>
                         <DoctorText>한국웰다잉문화운동 원혜영 대표</DoctorText>
                         <QuoteText>
-                            “사람과 더불어 사는 동물의 웰다잉을 <br/>
-                            위해서는 보호소 입양 때부터 장례에 <br/>
-                            대한 교육을 더해...” <br/>
+                            “사람과 더불어 사는 동물의 웰다잉을 
+                            위해서는 보호소 입양 때부터 장례에 
+                            대한 교육을 더해...” 
                         </QuoteText>
                         <DetailText href="https://www.hani.co.kr/arti/animalpeople/companion_animal/1027755.html" target="_blank">자세히 알아보기</DetailText>
                     </Quote>
