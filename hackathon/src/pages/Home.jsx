@@ -55,7 +55,7 @@ const MainText = styled.div`
     font-size: 56px;
     font-style: normal;
     font-weight: 700;
-    line-height: 110%;
+    line-height: 130%;
     letter-spacing: -0.56px;
 `
 const ServiceInfoText = styled.div`
@@ -65,7 +65,7 @@ const ServiceInfoText = styled.div`
     letter-spacing: 0.2px;
     text-transform: capitalize;
     margin: 22px 0px 45px 0px;
-    line-height: 30px; /* 150% */
+    line-height: 150%;
     color: #212121
 `
 const MintBtn = styled.div`
